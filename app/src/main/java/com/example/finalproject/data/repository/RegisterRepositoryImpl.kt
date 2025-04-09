@@ -6,7 +6,6 @@ import com.example.finalproject.data.mapper.asResource
 import com.example.finalproject.data.mapper.toDomain
 import com.example.finalproject.data.mapper.toDto
 import com.example.finalproject.data.service.AuthService
-import com.example.finalproject.domain.model.RegisterResponse
 import com.example.finalproject.domain.model.User
 import com.example.finalproject.domain.repository.RegisterRepository
 import kotlinx.coroutines.flow.Flow
@@ -20,24 +19,17 @@ class RegisterRepositoryImpl @Inject constructor(
 ): RegisterRepository {
     override suspend fun register(user: User): Flow<Resource<User>> {
         return handleResponse.safeApiCall {
-            service.register(user.toDto())
-        }.asResource {
-            it.toDomain()
-        }
-    }
+            val existingUsers = service.login(user.email, "").body()
 
-    override suspend fun registrationResponse(): Flow<Resource<RegisterResponse>> {
-        return handleResponse.safeApiCall {
-            val response = service.getRegisterResponse().body()
-            val successful = response?.firstOrNull { it.message == "Registration successful" }
+            val emailExists = existingUsers?.any { it.email == user.email } == true
 
-            if (successful != null) {
-                retrofit2.Response.success(successful)
-            } else {
+            if (emailExists) {
                 retrofit2.Response.error(
-                    400,
-                    "Registration failed".toResponseBody("text/plain".toMediaType())
+                    409,
+                    "User with this email already exists".toResponseBody("text/plain".toMediaType())
                 )
+            } else {
+                service.register(user.toDto())
             }
         }.asResource {
             it.toDomain()

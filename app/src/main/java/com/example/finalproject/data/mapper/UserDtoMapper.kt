@@ -10,8 +10,8 @@ import com.example.finalproject.domain.model.User
 fun UserDto.toDomain() = User(
     id = id,
     email = email,
-    fullName = fullName,
-    photoUrl = photoUrl ?: ""
+    password = password,
+    fullName = fullName ?: ""
 )
 
 fun LoginResponseDto.toDomain() = LoginResponse(
@@ -30,7 +30,6 @@ fun RegisterResponseDto.toDomain() = RegisterResponse(
 fun User.toDto() = UserDto(
     id = id,
     email = email,
-    password = "",
+    password = password,
     fullName = fullName,
-    photoUrl = photoUrl
 )

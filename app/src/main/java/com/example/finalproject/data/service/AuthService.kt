@@ -22,9 +22,12 @@ interface AuthService {
         @Body user: UserDto
     ): Response<UserDto>
 
-    @GET
+    @GET("loginResponse")
     suspend fun getLoginResponse(): Response<List<LoginResponseDto>>
 
-    @GET
+    @POST("loginResponse")
+    suspend fun saveToken(@Body response: LoginResponseDto): Response<LoginResponseDto>
+
+    @GET("registerResponse")
     suspend fun getRegisterResponse(): Response<List<RegisterResponseDto>>
 }

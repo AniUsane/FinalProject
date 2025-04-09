@@ -7,6 +7,5 @@ data class UserDto(
     val id: String,
     val email: String,
     val password: String,
-    val fullName: String,
-    val photoUrl: String? = null
+    val fullName: String? = null
 )

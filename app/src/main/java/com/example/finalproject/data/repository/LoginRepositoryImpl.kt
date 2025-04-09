@@ -4,45 +4,44 @@ import com.example.finalproject.common.HandleResponse
 import com.example.finalproject.common.Resource
 import com.example.finalproject.data.mapper.asResource
 import com.example.finalproject.data.mapper.toDomain
+import com.example.finalproject.data.model.LoginResponseDto
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.domain.model.LoginResponse
-import com.example.finalproject.domain.model.User
 import com.example.finalproject.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
+import java.util.UUID
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
     private val service: AuthService,
     private val handleResponse: HandleResponse
 ): LoginRepository {
-    override suspend fun login(email: String, password: String): Flow<Resource<User>> {
+    override suspend fun login(email: String, password: String): Flow<Resource<LoginResponse>> {
         return handleResponse.safeApiCall {
             val users = service.login(email, password).body()
             val user = users?.firstOrNull { it.password == password }
 
             if (user != null) {
-                retrofit2.Response.success(user)
-            } else {
-                retrofit2.Response.error(
-                    401, "Invalid email or password".toResponseBody("text/plain".toMediaType())
+                val token = UUID.randomUUID().toString()
+
+                val dto = LoginResponseDto(
+                    id = UUID.randomUUID().toString(),
+                    status = "success",
+                    message = "Login successful",
+                    token = token,
+                    userId = user.id
                 )
-            }
-        }.asResource { it.toDomain() }
-    }
 
-    override suspend fun loginResponse(): Flow<Resource<LoginResponse>> {
-        return handleResponse.safeApiCall {
-            val response = service.getLoginResponse().body()
-            val successful = response?.firstOrNull { it.status == "success" }
+                service.saveToken(dto)
 
-            if (successful != null) {
-                retrofit2.Response.success(successful)
+                Response.success(dto)
             } else {
-                retrofit2.Response.error(
-                    401, "Invalid login credentials".toResponseBody("text/plain".toMediaType())
+                Response.error(
+                    401,
+                    "Invalid email or password".toResponseBody("text/plain".toMediaType())
                 )
             }
         }.asResource { it.toDomain() }

@@ -1,6 +1,6 @@
-package com.example.finalproject.domain.model
+package com.example.finalproject.presentation.model
 
-data class User(
+data class UserUi(
     val id: String,
     val email: String,
     val password: String,
