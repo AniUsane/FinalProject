@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Final Project</string>
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="or">or</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="sign_in_with_email">Sign in with email</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
+    <string name="english">English 🌐</string>
+    <string name="sign_up_with_facebook">Sign up with Facebook</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
+    <string name="full_name">Full Name</string>
+    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+
 </resources>
