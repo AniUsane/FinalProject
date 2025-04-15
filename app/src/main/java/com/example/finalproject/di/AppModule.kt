@@ -2,7 +2,9 @@ package com.example.finalproject.di
 
 import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.HandleResponse
+import com.example.finalproject.common.utils.ApiHelper
 import com.example.finalproject.data.service.AuthService
+import com.example.finalproject.di.qualifier.Auth
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -20,6 +22,7 @@ object AppModule {
 
     @Singleton
     @Provides
+    @Auth
     fun provideRetrofitClient(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
@@ -30,7 +33,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideAuthService(@Auth retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
     }
 
@@ -42,6 +45,12 @@ object AppModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiHelper(): ApiHelper {
+        return ApiHelper
     }
 
 }

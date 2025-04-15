@@ -4,11 +4,11 @@ import com.example.finalproject.common.Resource
 import com.example.finalproject.domain.model.LoginResponse
 import com.example.finalproject.domain.model.PreferenceKeys
 import com.example.finalproject.domain.repository.DataStoreRepository
-import com.example.finalproject.domain.usecase.LoginUseCase
-import com.example.finalproject.domain.usecase.ValidateEmailUseCase
-import com.example.finalproject.domain.usecase.ValidatePasswordUseCase
-import com.example.finalproject.presentation.ui.screen.login.LoginEvent
-import com.example.finalproject.presentation.ui.screen.login.LoginViewModel
+import com.example.finalproject.domain.usecase.auth.LoginUseCase
+import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
+import com.example.finalproject.domain.usecase.auth.ValidatePasswordUseCase
+import com.example.finalproject.presentation.ui.screen.auth.login.LoginEvent
+import com.example.finalproject.presentation.ui.screen.auth.login.LoginViewModel
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify

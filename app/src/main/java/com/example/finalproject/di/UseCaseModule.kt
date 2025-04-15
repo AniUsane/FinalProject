@@ -2,10 +2,10 @@ package com.example.finalproject.di
 
 import com.example.finalproject.domain.repository.LoginRepository
 import com.example.finalproject.domain.repository.RegisterRepository
-import com.example.finalproject.domain.usecase.LoginUseCase
-import com.example.finalproject.domain.usecase.RegisterUseCase
-import com.example.finalproject.domain.usecase.ValidateEmailUseCase
-import com.example.finalproject.domain.usecase.ValidatePasswordUseCase
+import com.example.finalproject.domain.usecase.auth.LoginUseCase
+import com.example.finalproject.domain.usecase.auth.RegisterUseCase
+import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
+import com.example.finalproject.domain.usecase.auth.ValidatePasswordUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,13 +17,13 @@ import javax.inject.Singleton
 class UseCaseModule {
     @Provides
     @Singleton
-    fun provideLoginUseCase(loginRepository: LoginRepository): LoginUseCase{
+    fun provideLoginUseCase(loginRepository: LoginRepository): LoginUseCase {
         return LoginUseCase(loginRepository)
     }
 
     @Provides
     @Singleton
-    fun provideRegisterUseCase(registerRepository: RegisterRepository): RegisterUseCase{
+    fun provideRegisterUseCase(registerRepository: RegisterRepository): RegisterUseCase {
         return RegisterUseCase(registerRepository)
     }
 

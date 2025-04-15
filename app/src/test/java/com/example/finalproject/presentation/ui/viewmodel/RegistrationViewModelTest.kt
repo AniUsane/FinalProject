@@ -2,11 +2,11 @@ package com.example.finalproject.presentation.ui.viewmodel
 
 import com.example.finalproject.common.Resource
 import com.example.finalproject.domain.model.User
-import com.example.finalproject.domain.usecase.RegisterUseCase
-import com.example.finalproject.domain.usecase.ValidateEmailUseCase
-import com.example.finalproject.domain.usecase.ValidatePasswordUseCase
-import com.example.finalproject.presentation.ui.screen.registration.RegistrationEvent
-import com.example.finalproject.presentation.ui.screen.registration.RegistrationViewModel
+import com.example.finalproject.domain.usecase.auth.RegisterUseCase
+import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
+import com.example.finalproject.domain.usecase.auth.ValidatePasswordUseCase
+import com.example.finalproject.presentation.ui.screen.auth.registration.RegistrationEvent
+import com.example.finalproject.presentation.ui.screen.auth.registration.RegistrationViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

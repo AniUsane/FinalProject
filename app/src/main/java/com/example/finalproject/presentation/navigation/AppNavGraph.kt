@@ -4,19 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.finalproject.presentation.ui.screen.login.LoginScreen
-import com.example.finalproject.presentation.ui.screen.registration.RegistrationScreen
+import com.example.finalproject.presentation.ui.screen.auth.login.LoginScreen
+import com.example.finalproject.presentation.ui.screen.auth.registration.RegistrationScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
 data object LoginScreenDestination
 @Serializable
 data object RegistrationScreenDestination
-@Serializable
-data object HomeScreenDestination
+
 
 @Composable
-fun AppNavGraph(){
+fun AppNavGraph(onAuthSuccess: () -> Unit){
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = RegistrationScreenDestination) {
@@ -25,7 +24,7 @@ fun AppNavGraph(){
                 navController.navigate(RegistrationScreenDestination)
             },
                 navigateToHome = {
-                    navController.navigate(HomeScreenDestination)
+                    onAuthSuccess()
                 })
         }
 
@@ -35,8 +34,17 @@ fun AppNavGraph(){
             })
         }
 
-        composable<HomeScreenDestination>{
-            androidx.compose.material3.Text("Welcome to Home!")
-        }
+    }
+}
+
+@Composable
+fun RootNavigationGraph(
+    isAuthenticated: Boolean,
+    onAuthSuccess: () -> Unit
+) {
+    if (isAuthenticated) {
+        MyBottomAppBar()
+    } else {
+        AppNavGraph(onAuthSuccess = onAuthSuccess)
     }
 }

@@ -1,8 +1,8 @@
 package com.example.finalproject.di
 
 import com.example.finalproject.common.HandleResponse
-import com.example.finalproject.data.repository.LoginRepositoryImpl
-import com.example.finalproject.data.repository.RegisterRepositoryImpl
+import com.example.finalproject.data.repository.auth.LoginRepositoryImpl
+import com.example.finalproject.data.repository.auth.RegisterRepositoryImpl
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.domain.repository.LoginRepository
 import com.example.finalproject.domain.repository.RegisterRepository
@@ -27,3 +27,4 @@ class RepositoryModule {
         return RegisterRepositoryImpl(service, handleResponse)
     }
 }
+

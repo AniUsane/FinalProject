@@ -1,8 +1,8 @@
 package com.example.finalproject.data.mapper
 
-import com.example.finalproject.data.model.LoginResponseDto
-import com.example.finalproject.data.model.RegisterResponseDto
-import com.example.finalproject.data.model.UserDto
+import com.example.finalproject.data.model.auth.LoginResponseDto
+import com.example.finalproject.data.model.auth.RegisterResponseDto
+import com.example.finalproject.data.model.auth.UserDto
 import com.example.finalproject.domain.model.LoginResponse
 import com.example.finalproject.domain.model.RegisterResponse
 import com.example.finalproject.domain.model.User
