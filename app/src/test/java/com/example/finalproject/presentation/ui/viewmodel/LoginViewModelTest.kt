@@ -2,7 +2,7 @@ package com.example.finalproject.presentation.ui.viewmodel
 
 import com.example.finalproject.common.Resource
 import com.example.finalproject.domain.model.LoginResponse
-import com.example.finalproject.domain.model.PreferenceKeys
+import com.example.finalproject.data.repository.PreferenceKeys
 import com.example.finalproject.domain.repository.DataStoreRepository
 import com.example.finalproject.domain.usecase.LoginUseCase
 import com.example.finalproject.domain.usecase.ValidateEmailUseCase

@@ -12,17 +12,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.finalproject.domain.repository.DataStoreRepository
 import com.example.finalproject.presentation.navigation.AppNavGraph
 import com.example.finalproject.presentation.ui.theme.FinalProjectTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var dataStore: DataStoreRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            AppNavGraph()
+            SessionCheckerNavHost(dataStore)
         }
     }
 }

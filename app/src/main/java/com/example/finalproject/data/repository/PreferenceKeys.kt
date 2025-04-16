@@ -1,4 +1,4 @@
-package com.example.finalproject.domain.model
+package com.example.finalproject.data.repository
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 

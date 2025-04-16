@@ -3,7 +3,7 @@ package com.example.finalproject.presentation.ui.screen.login
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.BaseViewModel
 import com.example.finalproject.common.Resource
-import com.example.finalproject.domain.model.PreferenceKeys
+import com.example.finalproject.data.repository.PreferenceKeys
 import com.example.finalproject.domain.repository.DataStoreRepository
 import com.example.finalproject.domain.usecase.LoginUseCase
 import com.example.finalproject.domain.usecase.ValidateEmailUseCase
@@ -64,11 +64,11 @@ class LoginViewModel @Inject constructor(
                         updateState { copy(isLoading = false) }
 
                         if (rememberMe) {
-                            result.data.token?.let {
-                                dataStoreManager.saveString(PreferenceKeys.TOKEN_KEY, it)
-                            }
-                            result.data.userId?.let {
-                                dataStoreManager.saveString(PreferenceKeys.USER_ID_KEY, it)
+                            with(dataStoreManager) {
+                                launch {
+                                    result.data.token?.let { saveString(PreferenceKeys.TOKEN_KEY, it) }
+                                    result.data.userId?.let { saveString(PreferenceKeys.USER_ID_KEY, it) }
+                                }
                             }
                         }
 

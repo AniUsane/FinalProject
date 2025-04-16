@@ -44,7 +44,7 @@ import com.example.finalproject.presentation.ui.theme.Red
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navigateToRegister: () -> Unit,
-    navigateToHome: () -> Unit
+    navigateToProfile: () -> Unit
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -52,7 +52,7 @@ fun LoginScreen(
     CollectEffect(flow = viewModel.effects) { effect ->
         when (effect) {
             is LoginEffect.NavigateToRegister -> navigateToRegister()
-            is LoginEffect.NavigateToHome -> navigateToHome()
+            is LoginEffect.NavigateToHome -> navigateToProfile()
         }
     }
 

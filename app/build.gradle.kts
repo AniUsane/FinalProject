@@ -56,9 +56,12 @@ android {
         buildTypes {
             debug {
                 buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
+                buildConfigField("String", "IMGBB_API_KEY", "\"41e7372e8a887955349a7b8e16db4036\"")
+                buildConfigField("String", "IMGBB_BASE_URL", "\"https://api.imgbb.com/\"")
             }
             release {
                 buildConfigField("String", "BASE_URL", "")
+
             }
         }
     }
@@ -101,6 +104,9 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
+
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }
 
 
