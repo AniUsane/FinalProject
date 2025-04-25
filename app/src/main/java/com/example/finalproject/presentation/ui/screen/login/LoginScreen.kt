@@ -1,16 +1,17 @@
 package com.example.finalproject.presentation.ui.screen.login
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
@@ -33,11 +34,15 @@ import com.example.finalproject.presentation.ui.screen.components.CollectEffect
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.bigSpace
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.smallSpace
+import com.example.finalproject.presentation.ui.screen.components.LanguagePicker
 import com.example.finalproject.presentation.ui.screen.components.StyledButton
 import com.example.finalproject.presentation.ui.screen.components.StyledTextField
 import com.example.finalproject.presentation.ui.theme.Black
 import com.example.finalproject.presentation.ui.theme.Gray
+import com.example.finalproject.presentation.ui.theme.LightGray
+import com.example.finalproject.presentation.ui.theme.OrangeColor
 import com.example.finalproject.presentation.ui.theme.Red
+import com.example.finalproject.presentation.ui.theme.White
 
 
 @Composable
@@ -80,21 +85,18 @@ fun LoginContent(
     state: LoginState,
     onEvent: (LoginEvent) -> Unit
 ) {
-    Column(
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .imePadding()
             .padding(mediumSpace),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(mediumSpace),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        item {
             Spacer(modifier = Modifier.height(bigSpace))
 
-            Text(text = stringResource(R.string.english), modifier = Modifier.align(Alignment.CenterHorizontally))
+            LanguagePicker(modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(bigSpace))
 
             Text(
@@ -104,7 +106,8 @@ fun LoginContent(
             )
 
             Spacer(modifier = Modifier.height(bigSpace))
-
+        }
+        item {
             StyledButton(
                 text = stringResource(R.string.sign_in_with_facebook),
                 icon = painterResource(id = R.drawable.facebook_ic)
@@ -117,56 +120,72 @@ fun LoginContent(
             ) {}
 
             Spacer(modifier = Modifier.height(mediumSpace))
-
-            AnimatedVisibility(visible = state.showEmailFields) {
-                Column {
-                    HorizontalDivider(modifier = Modifier.padding(vertical = smallSpace))
+        }
+        if (state.showEmailFields) {
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = smallSpace)
+                ) {
+                    HorizontalDivider(modifier = Modifier.weight(1f))
                     Text(
                         text = stringResource(R.string.or),
                         color = Gray,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier.padding(horizontal = smallSpace)
                     )
-                    Spacer(modifier = Modifier.height(smallSpace))
-
-                    StyledTextField(
-                        value = state.email,
-                        onValueChange = { onEvent(LoginEvent.OnEmailChanged(it)) },
-                        label = stringResource(R.string.email),
-                        isError = state.emailError != null,
-                        errorMessage = state.emailError,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(smallSpace))
-
-                    StyledTextField(
-                        value = state.password,
-                        onValueChange = { onEvent(LoginEvent.OnPasswordChanged(it)) },
-                        label = stringResource(R.string.password),
-                        isPassword = true,
-                        isVisible = state.showPassword,
-                        onVisibilityToggle = { onEvent(LoginEvent.OnTogglePasswordVisibility) },
-                        isError = state.passwordError != null,
-                        errorMessage = state.passwordError,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(smallSpace))
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = smallSpace)
-                    ) {
-                        Checkbox(
-                            checked = state.rememberMe,
-                            onCheckedChange = { onEvent(LoginEvent.OnRememberMeChecked(it)) }
-                        )
-                        Text(text = stringResource(R.string.remember_me))
-                    }
-
+                    HorizontalDivider(modifier = Modifier.weight(1f))
                 }
             }
 
+            item {
+                StyledTextField(
+                    value = state.email,
+                    onValueChange = { onEvent(LoginEvent.OnEmailChanged(it)) },
+                    label = stringResource(R.string.email),
+                    isError = state.emailError != null,
+                    errorMessage = state.emailError,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(smallSpace))
+
+                StyledTextField(
+                    value = state.password,
+                    onValueChange = { onEvent(LoginEvent.OnPasswordChanged(it)) },
+                    label = stringResource(R.string.password),
+                    isPassword = true,
+                    isVisible = state.showPassword,
+                    onVisibilityToggle = { onEvent(LoginEvent.OnTogglePasswordVisibility) },
+                    isError = state.passwordError != null,
+                    errorMessage = state.passwordError,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(modifier = Modifier.height(smallSpace))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = smallSpace)
+                ) {
+                    Checkbox(
+                        checked = state.rememberMe,
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = OrangeColor,
+                            checkmarkColor = White,
+                            uncheckedColor = OrangeColor,
+                            disabledCheckedColor = LightGray,
+                            disabledUncheckedColor = LightGray
+                        ),
+                        onCheckedChange = { onEvent(LoginEvent.OnRememberMeChecked(it)) }
+                    )
+                    Text(text = stringResource(R.string.remember_me))
+                }
+            }
+        }
+
+        item {
             StyledButton(
                 text = stringResource(R.string.sign_in_with_email),
                 icon = painterResource(id = R.drawable.email_ic)
@@ -189,8 +208,6 @@ fun LoginContent(
         }
     }
 }
-
-
 @Composable
 @Preview(showBackground = true)
 fun LoginContentPreview() {

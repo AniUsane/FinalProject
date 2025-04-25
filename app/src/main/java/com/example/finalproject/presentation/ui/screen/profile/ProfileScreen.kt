@@ -1,9 +1,12 @@
 package com.example.finalproject.presentation.ui.screen.profile
 
+import android.content.Intent
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,20 +18,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +50,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -51,8 +61,17 @@ import coil3.compose.rememberAsyncImagePainter
 import com.example.finalproject.R
 import com.example.finalproject.presentation.model.ProfileUi
 import com.example.finalproject.presentation.ui.screen.components.CollectEffect
-import com.example.finalproject.presentation.ui.screen.components.Dimensions.bigSpace
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
+import com.example.finalproject.presentation.ui.screen.components.Dimensions.profileImage
+import com.example.finalproject.presentation.ui.screen.components.Dimensions.smallSpace
+import com.example.finalproject.presentation.ui.screen.components.Dimensions.thirtyDp
+import com.example.finalproject.presentation.ui.screen.components.EmptyState
+import com.example.finalproject.presentation.ui.screen.components.IconDropdownMenuItem
+import com.example.finalproject.presentation.ui.theme.Gray
+import com.example.finalproject.presentation.ui.theme.LightGray
+import com.example.finalproject.presentation.ui.theme.OrangeColor
+import com.example.finalproject.presentation.ui.theme.PinkBackground
+import com.example.finalproject.presentation.ui.theme.White
 
 @Composable
 fun ProfileScreen(
@@ -100,21 +119,23 @@ fun ProfileScreen(
                         "Help & how to" -> viewModel.obtainEvent(ProfileEvent.HelpClicked)
                         "Feedback & support" -> viewModel.obtainEvent(ProfileEvent.FeedbackClicked)
                     }
-                }
+                },
+                onAddTrip = { viewModel.obtainEvent(ProfileEvent.AddTrip) },      // ✅ new
+                onAddGuide = { viewModel.obtainEvent(ProfileEvent.AddGuide) }
             )
         }
 
-//        state.errorMessage != null -> {
-//            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//                Text(state.errorMessage ?: "Something went wrong", color = Color.Red)
-//            }
-//        }
+        state.errorMessage != null -> {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(state.errorMessage ?: "Something went wrong", color = Color.Red)
+            }
+        }
 
-//        else -> {
-//            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//                Text("No data available", color = Color.Gray)
-//            }
-//        }
+        else -> {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No data available", color = Color.Gray)
+            }
+        }
     }
 }
 
@@ -125,106 +146,226 @@ fun ProfileContent(
     onEditImage: () -> Unit,
     onLogout: () -> Unit,
     onDeleteAccount: () -> Unit,
-    onMenuOptionSelected: (String) -> Unit
+    onMenuOptionSelected: (String) -> Unit,
+    onAddTrip: () -> Unit,
+    onAddGuide: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabTitles = listOf("Trips", "Guides")
+    var sortDialogVisible by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bigSpace)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top
+    Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp)
+                .background(PinkBackground)
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 120.dp)
+                .background(
+                    White,
+                    shape = RoundedCornerShape(topStart = mediumSpace, topEnd = mediumSpace)
+                )
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = rememberAsyncImagePainter(
-                        model = profile.profileImageUrl?.ifBlank{null},
-                        error = painterResource(R.drawable.profile_img),
-                        placeholder = painterResource(R.drawable.profile_img)),
-                    contentDescription = "Profile Image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(96.dp)
-                        .clip(CircleShape)
-                )
+            Spacer(modifier = Modifier.height(profileImage))
 
-                IconButton(onClick = onEditImage) {
-                    Icon(Icons.Default.Edit, contentDescription = "Edit Image")
+            Text(
+                text = profile.fullName,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = "@${profile.username}",
+                color = Gray,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            Spacer(modifier = Modifier.height(smallSpace))
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("0", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
+                    Text("FOLLOWERS", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("0", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
+                    Text("FOLLOWING", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
                 }
             }
 
-            Column(horizontalAlignment = Alignment.End) {
-                IconButton(onClick = { expanded = true }) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Menu")
-                }
+            Spacer(modifier = Modifier.height(mediumSpace))
 
-                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                    DropdownMenuItem(
-                        text = { Text("Settings") },
-                        onClick = {
-                            expanded = false
-                            onMenuOptionSelected("Settings")
-                        }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = mediumSpace),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(stringResource(R.string.sort), color = Gray)
+                TabRow(
+                    selectedTabIndex = selectedTab,
+                    containerColor = White,
+                    contentColor = OrangeColor,
+                    indicator = { tabPositions ->
+                        SecondaryIndicator(
+                            Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
+                            color = OrangeColor
+                        )
+                    }
+                ) {
+                    tabTitles.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = {
+                                Text(
+                                    text = title,
+                                    color = if (selectedTab == index) OrangeColor else Gray
+                                )
+                            }
+                        )
+                    }
+                }
+                TextButton(onClick = { sortDialogVisible = true }) {
+                    Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = null, tint = Gray)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(stringResource(R.string.sort), color = Gray)
+                }
+            }
+
+            when (selectedTab) {
+                0 -> EmptyState(
+                    message = stringResource(R.string.you_haven_t_planned_any_trips_yet),
+                    buttonText = stringResource(R.string.start_planning_a_trip),
+                    onClick = onAddTrip
+                )
+                1 -> EmptyState(
+                    message = stringResource(R.string.you_haven_t_added_any_guides_yet),
+                    buttonText = stringResource(R.string.add_a_guide),
+                    onClick = onAddGuide
+                )
+            }
+        }
+
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Spacer(modifier = Modifier.height(70.dp))
+                Box(contentAlignment = Alignment.BottomEnd) {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            model = profile.profileImageUrl?.ifBlank { null },
+                            error = painterResource(R.drawable.profile_img),
+                            placeholder = painterResource(R.drawable.profile_img),
+                        ),
+                        contentDescription = stringResource(R.string.profile_image),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(96.dp)
+                            .clip(CircleShape)
+                            .border(2.dp, Color.White, CircleShape)
+                            .background(LightGray)
                     )
-                    DropdownMenuItem(
-                        text = { Text("Help & how to") },
-                        onClick = {
-                            expanded = false
-                            onMenuOptionSelected("Help & how to")
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Feedback & support") },
-                        onClick = {
-                            expanded = false
-                            onMenuOptionSelected("Feedback & support")
-                        }
-                    )
-                    HorizontalDivider()
-                    DropdownMenuItem(
-                        text = { Text("Log out") },
-                        onClick = {
-                            expanded = false
-                            onLogout()
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Delete account", color = Color.Red) },
-                        onClick = {
-                            expanded = false
-                            onDeleteAccount()
-                        }
-                    )
+
+                    IconButton(
+                        onClick = onEditImage,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .background(White, CircleShape)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = stringResource(R.string.edit_image),
+                            modifier = Modifier.size(14.dp),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = thirtyDp), contentAlignment = Alignment.TopEnd) {
+            IconButton(onClick = { expanded = true }) {
+                Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.menu))
+            }
 
-        Text(text = profile.fullName, style = MaterialTheme.typography.headlineSmall)
-        Text(text = "@${profile.username}", color = Color.Gray)
+            val context = LocalContext.current
 
-        Spacer(modifier = Modifier.height(24.dp))
+            val localMenuHandler: (MenuOption) -> Unit = { option ->
+                when (option) {
+                    MenuOption.HelpHowTo -> {
+                        val intent = Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://help.wanderlog.com/hc/en-us"))
+                        context.startActivity(intent)
+                    }
+                    MenuOption.FeedbackSupport -> {
+                        val intent = Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://wanderlog.com/chatSupport?loginToken=VKUCpNFLQ3miKlQhXziuZx72PXqUJXLI"))
+                        context.startActivity(intent)
+                    }
 
-        TabRow(selectedTabIndex = selectedTab) {
-            tabTitles.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTab == index,
-                    onClick = { selectedTab = index },
-                    text = { Text(title) }
+                    else -> onMenuOptionSelected(option.toString())
+                }
+            }
+
+            DropdownMenu(expanded = expanded,
+                onDismissRequest = { expanded = false },
+                offset = DpOffset(x = -smallSpace, y = 0.dp)
+            ) {
+                IconDropdownMenuItem(
+                    iconResource = R.drawable.settings_icon,
+                    label = stringResource(R.string.settings),
+                    onClick = {
+                        expanded = false
+                        localMenuHandler(MenuOption.Settings)
+                    }
+                )
+
+                IconDropdownMenuItem(
+                    iconResource = R.drawable.info_icon,
+                    label = stringResource(R.string.help_how_to),
+                    onClick = {
+                        expanded = false
+                        localMenuHandler(MenuOption.HelpHowTo)
+                    }
+                )
+
+                IconDropdownMenuItem(
+                    iconResource = R.drawable.question_icon,
+                    label = stringResource(R.string.feedback_support),
+                    onClick = {
+                        expanded = false
+                        localMenuHandler(MenuOption.HelpHowTo)
+                    }
+                )
+
+                IconDropdownMenuItem(
+                    iconResource = R.drawable.logout_icon,
+                    label = stringResource(R.string.log_out),
+                    onClick = {
+                        expanded = false
+                        onLogout()
+                    }
+                )
+
+                IconDropdownMenuItem(
+                    iconResource = R.drawable.bin_icon,
+                    label = stringResource(R.string.delete_account),
+                    onClick = {
+                        expanded = false
+                        onDeleteAccount()
+                    }
                 )
             }
-        }
-
-        when (selectedTab) {
-            0 -> Text("Trips list here", modifier = Modifier.padding(16.dp))
-            1 -> Text("Guides list here", modifier = Modifier.padding(16.dp))
         }
     }
 }
@@ -249,7 +390,9 @@ fun ProfileContentPreview() {
             onEditImage = {},
             onLogout = {},
             onDeleteAccount = {},
-            onMenuOptionSelected = {}
+            onMenuOptionSelected = {},
+            onAddTrip = {},
+            onAddGuide = {}
         )
     }
 }

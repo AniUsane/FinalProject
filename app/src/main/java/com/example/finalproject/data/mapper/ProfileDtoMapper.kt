@@ -26,4 +26,3 @@ fun Profile.toDto(): ProfileDto =
         trips = trips,
         guides = guides
     )
-

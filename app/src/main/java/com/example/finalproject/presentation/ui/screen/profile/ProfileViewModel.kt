@@ -10,6 +10,7 @@ import com.example.finalproject.common.Resource
 import com.example.finalproject.data.repository.PreferenceKeys
 import com.example.finalproject.domain.repository.DataStoreRepository
 import com.example.finalproject.domain.usecase.DeleteProfileUseCase
+import com.example.finalproject.domain.usecase.DeleteUserUseCase
 import com.example.finalproject.domain.usecase.LogoutUseCase
 import com.example.finalproject.domain.usecase.ProfileUseCase
 import com.example.finalproject.domain.usecase.UpdateProfileUseCase
@@ -30,7 +31,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase,
     private val updateProfile: UpdateProfileUseCase,
     private val deleteProfile: DeleteProfileUseCase,
-    private val logout: LogoutUseCase,
+    private val deleteUser: DeleteUserUseCase,
     private val dataStore: DataStoreRepository,
     private val uploadImageUseCase: UploadImageUseCase
 ): BaseViewModel<ProfileState, ProfileEvent, ProfileEffect>(ProfileState()) {
@@ -43,6 +44,16 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.ChangeImageClicked -> {
                 viewModelScope.launch { emitEffect(ProfileEffect.OpenImagePicker) }
             }
+            is ProfileEvent.SettingsClicked -> {
+                viewModelScope.launch { emitEffect(ProfileEffect.ShowSettingsDialog) }
+            }
+            is ProfileEvent.HelpClicked -> {
+                viewModelScope.launch { emitEffect(ProfileEffect.ShowHelpDialog) }
+            }
+            is ProfileEvent.FeedbackClicked -> {
+                viewModelScope.launch { emitEffect(ProfileEffect.ShowFeedbackDialog) }
+            }
+
             else -> Unit
         }
     }
@@ -80,24 +91,36 @@ class ProfileViewModel @Inject constructor(
         val currentId = viewState.value.profile?.id ?: return
 
         viewModelScope.launch {
-            deleteProfile(currentId).onEach { result ->
-                when(result) {
+            deleteProfile(currentId).collect { profileResult ->
+                when (profileResult) {
                     is Resource.Success -> {
-                        emitEffect(ProfileEffect.ShowSnackBar("Profile successfully deleted"))
-                        emitEffect(ProfileEffect.NavigateToLogin)
+                        deleteUser(currentId).collect { userResult ->
+                            when (userResult) {
+                                is Resource.Success -> {
+                                    dataStore.clear()
+                                    emitEffect(ProfileEffect.ShowSnackBar("Account successfully deleted"))
+                                    emitEffect(ProfileEffect.NavigateToLogin)
+                                }
+                                is Resource.Error -> {
+                                    emitEffect(ProfileEffect.ShowSnackBar("Profile deleted, but failed to delete user"))
+                                }
+                                else -> {}
+                            }
+                        }
                     }
+
                     is Resource.Error -> {
                         emitEffect(ProfileEffect.ShowSnackBar("Could not delete profile"))
                     }
+
                     else -> {}
                 }
-            }.launchIn(this)
+            }
         }
     }
 
     private fun updateProfileImage(newImageUrl: String){
         viewModelScope.launch {
-            // Convert String to Uri safely
             val uri = Uri.parse(newImageUrl)
 
             val imagePart = ImageUtils.prepareImage(uri, context)
@@ -107,12 +130,15 @@ class ProfileViewModel @Inject constructor(
                 is Resource.Success -> {
                     val uploadedUrl = result.data
                     val currentProfile = viewState.value.profile ?: return@launch
-                    val updated = currentProfile.copy(profileImageUrl = uploadedUrl)
 
-                    updateProfile(updated.toDomain()).onEach { updateResult ->
+                    val updatedProfile = currentProfile.copy(
+                        profileImageUrl = uploadedUrl
+                    )
+
+                    updateProfile(updatedProfile.toDomain()).onEach { updateResult ->
                         when (updateResult) {
                             is Resource.Success -> {
-                                updateState { copy(profile = updated) }
+                                updateState { copy(profile = updatedProfile) }
                                 emitEffect(ProfileEffect.ShowSnackBar("Profile image updated"))
                             }
                             is Resource.Error -> {
@@ -130,29 +156,5 @@ class ProfileViewModel @Inject constructor(
                 else -> Unit
             }
         }
-
-
-
-
-    //        val current = viewState.value.profile ?: return
-//        val updated = current.copy(profileImageUrl = newImageUrl)
-//
-//        viewModelScope.launch {
-//            updateProfile(updated.toDomain()).onEach { result ->
-//                when (result) {
-//                    is Resource.Success -> {
-//                        updateState { copy(profile = updated) }
-//                        emitEffect(ProfileEffect.ShowSnackBar("Profile image updated"))
-//                    }
-//
-//                    is Resource.Error -> {
-//                        emitEffect(ProfileEffect.ShowSnackBar("Failed to update profile"))
-//                    }
-//
-//                    else -> {}
-//                }
-//            }.launchIn(this)
-//        }
     }
-
 }

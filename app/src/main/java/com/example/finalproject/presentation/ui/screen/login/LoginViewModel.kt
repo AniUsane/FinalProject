@@ -63,11 +63,13 @@ class LoginViewModel @Inject constructor(
                     is Resource.Success -> {
                         updateState { copy(isLoading = false) }
 
+                        result.data.userId?.let { dataStoreManager.saveString(PreferenceKeys.USER_ID_KEY, it) }
+                        dataStoreManager.saveString(PreferenceKeys.PASSWORD_KEY, password)
+
                         if (rememberMe) {
                             with(dataStoreManager) {
                                 launch {
                                     result.data.token?.let { saveString(PreferenceKeys.TOKEN_KEY, it) }
-                                    result.data.userId?.let { saveString(PreferenceKeys.USER_ID_KEY, it) }
                                 }
                             }
                         }

@@ -1,4 +1,4 @@
-package com.example.finalproject
+package com.example.finalproject.presentation.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject.data.repository.PreferenceKeys
 import com.example.finalproject.domain.repository.DataStoreRepository
-import com.example.finalproject.presentation.navigation.AppNavGraph
 import kotlinx.coroutines.flow.first
 
 @Composable
@@ -27,14 +26,13 @@ fun SessionCheckerNavHost(dataStore: DataStoreRepository) {
         val userId = dataStore.readString(PreferenceKeys.USER_ID_KEY).first()
 
         startDestination = if (token.isNotBlank() && userId.isNotBlank()) {
-            "profile"
+            Routes.PROFILE
         } else {
-            "login"
+            Routes.LOGIN
         }
     }
 
     if (startDestination == null) {
-        // Show loading splash while determining session
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }

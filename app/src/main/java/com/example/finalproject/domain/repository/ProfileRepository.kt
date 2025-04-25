@@ -10,4 +10,5 @@ interface ProfileRepository {
     suspend fun updateProfile(profile: Profile): Flow<Resource<Profile>>
     suspend fun deleteProfile(profileId: String): Flow<Resource<Unit>>
     suspend fun uploadProfileImageToImgBB(apiKey: String, image: MultipartBody.Part): Resource<String>
+    suspend fun getAccProfileUserId(userId: String): Profile?
 }

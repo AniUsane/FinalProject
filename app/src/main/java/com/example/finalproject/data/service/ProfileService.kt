@@ -16,6 +16,9 @@ interface ProfileService {
     suspend fun getProfileByUserId(@Query("userId") userId: String):
             Response<List<ProfileDto>>
 
+    @GET("Profile/{id}")
+    suspend fun getProfileById(@Path("id") id: String): Response<ProfileDto>
+
     @POST("Profile")
     suspend fun createProfile(@Body profile: ProfileDto):
             Response<ProfileDto>

@@ -34,8 +34,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override suspend fun updateProfile(profile: Profile): Flow<Resource<Profile>> {
         return handleResponse.safeApiCall {
-            val dto = profile.toDto()
-            service.updateProfile(profile.id, dto)
+            service.updateProfile(profile.id, profile.toDto())
         }.asResource { it.toDomain() }
     }
 
@@ -59,4 +58,13 @@ class ProfileRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error during upload")
         }    }
+
+    override suspend fun getAccProfileUserId(userId: String): Profile? {
+        return try {
+            val result = service.getProfileByUserId(userId)
+            result.body()?.firstOrNull()?.toDomain()
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

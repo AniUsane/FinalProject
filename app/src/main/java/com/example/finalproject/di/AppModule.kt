@@ -5,6 +5,7 @@ import com.example.finalproject.common.HandleResponse
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.data.service.ImgBBService
 import com.example.finalproject.data.service.ProfileService
+import com.example.finalproject.data.service.UserService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -36,6 +37,12 @@ object AppModule {
     @Provides
     fun provideAuthService(@Named("RetrofitClient") retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserService(@Named("RetrofitClient") retrofit: Retrofit): UserService {
+        return  retrofit.create(UserService::class.java)
     }
 
     @Singleton
