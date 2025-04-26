@@ -92,11 +92,11 @@ fun TopImageCard(
                         ),
                     ) {
 
-                            Text(
-                                text = buttonText,
-                                fontSize = 13.sp,
-                                textAlign = TextAlign.Center
-                            )
+                        Text(
+                            text = buttonText,
+                            fontSize = 13.sp,
+                            textAlign = TextAlign.Center
+                        )
 
                     }
                 }

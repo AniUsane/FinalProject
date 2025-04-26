@@ -2,19 +2,17 @@ package com.example.finalproject.presentation.ui.screen.profile
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log.d
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.BaseViewModel
 import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.Resource
 import com.example.finalproject.data.repository.PreferenceKeys
 import com.example.finalproject.domain.repository.DataStoreRepository
-import com.example.finalproject.domain.usecase.DeleteProfileUseCase
-import com.example.finalproject.domain.usecase.DeleteUserUseCase
-import com.example.finalproject.domain.usecase.LogoutUseCase
-import com.example.finalproject.domain.usecase.ProfileUseCase
-import com.example.finalproject.domain.usecase.UpdateProfileUseCase
-import com.example.finalproject.domain.usecase.UploadImageUseCase
+import com.example.finalproject.domain.usecase.profile.DeleteProfileUseCase
+import com.example.finalproject.domain.usecase.profile.DeleteUserUseCase
+import com.example.finalproject.domain.usecase.profile.ProfileUseCase
+import com.example.finalproject.domain.usecase.profile.UpdateProfileUseCase
+import com.example.finalproject.domain.usecase.profile.UploadImageUseCase
 import com.example.finalproject.presentation.mapper.toDomain
 import com.example.finalproject.presentation.mapper.toPresentation
 import com.example.finalproject.utils.ImageUtils

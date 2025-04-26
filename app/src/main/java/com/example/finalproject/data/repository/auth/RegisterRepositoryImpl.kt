@@ -5,7 +5,7 @@ import com.example.finalproject.common.Resource
 import com.example.finalproject.data.mapper.asResource
 import com.example.finalproject.data.mapper.toDomain
 import com.example.finalproject.data.mapper.toDto
-import com.example.finalproject.data.model.ProfileDto
+import com.example.finalproject.data.model.profile.ProfileDto
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.data.service.ProfileService
 import com.example.finalproject.domain.model.User

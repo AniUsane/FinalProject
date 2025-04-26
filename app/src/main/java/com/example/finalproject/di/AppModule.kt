@@ -16,6 +16,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Named
 import javax.inject.Singleton
+import com.example.finalproject.common.utils.ApiHelper
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -10,10 +10,10 @@ import com.example.finalproject.domain.model.User
 import com.example.finalproject.domain.repository.DataStoreRepository
 import com.example.finalproject.domain.repository.ProfileRepository
 import com.example.finalproject.domain.repository.UserRepository
-import com.example.finalproject.domain.usecase.DeleteProfileUseCase
-import com.example.finalproject.domain.usecase.DeleteUserUseCase
-import com.example.finalproject.domain.usecase.UpdateProfileUseCase
-import com.example.finalproject.domain.usecase.UpdateUserUseCase
+import com.example.finalproject.domain.usecase.profile.DeleteProfileUseCase
+import com.example.finalproject.domain.usecase.profile.DeleteUserUseCase
+import com.example.finalproject.domain.usecase.profile.UpdateProfileUseCase
+import com.example.finalproject.domain.usecase.profile.UpdateUserUseCase
 import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async

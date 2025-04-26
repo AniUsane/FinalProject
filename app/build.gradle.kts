@@ -101,9 +101,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.coil.compose)
 
-
-    implementation(libs.androidx.datastore.preferences.core)
-    implementation(libs.androidx.datastore.preferences)
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

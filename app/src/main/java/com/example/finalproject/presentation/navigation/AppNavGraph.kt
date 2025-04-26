@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.finalproject.presentation.ui.screen.home.Home
 import com.example.finalproject.presentation.ui.screen.login.LoginScreen
 import com.example.finalproject.presentation.ui.screen.profile.ProfileScreen
 import com.example.finalproject.presentation.ui.screen.profile.ProfileScreenCallbacks
@@ -85,7 +86,7 @@ fun AppNavGraph(
             }
 
             composable<HomeScreenDestination>{
-                androidx.compose.material3.Text("Welcome to Home!")
+                Home()
             }
 
             composable<ProfileScreenDestination> {

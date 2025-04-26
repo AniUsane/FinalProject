@@ -1,6 +1,6 @@
 package com.example.finalproject.data.mapper
 
-import com.example.finalproject.data.model.ProfileDto
+import com.example.finalproject.data.model.profile.ProfileDto
 import com.example.finalproject.domain.model.Profile
 
 fun ProfileDto.toDomain(): Profile =

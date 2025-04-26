@@ -1,4 +1,5 @@
 package com.example.finalproject.presentation.ui.screen.home
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.finalproject.presentation.model.guide.UserGuideUi
 import com.example.finalproject.presentation.ui.theme.PostLightGreyColor
 
@@ -31,14 +32,14 @@ fun UserGuideItem(userGuideUi: UserGuideUi) {
                 .height(150.dp),
             shape = RoundedCornerShape(12.dp)
         ){
-        AsyncImage(
-            model = userGuideUi.imageUrl,
-            contentScale = ContentScale.Crop,
-            contentDescription = "image",
-            modifier = Modifier
-                .fillMaxSize()
+            AsyncImage(
+                model = userGuideUi.imageUrl,
+                contentScale = ContentScale.Crop,
+                contentDescription = "image",
+                modifier = Modifier
+                    .fillMaxSize()
 
-        )
+            )
         }
 
         Text(text = userGuideUi.title, modifier = Modifier
@@ -69,7 +70,7 @@ fun UserGuideItem(userGuideUi: UserGuideUi) {
                     .size(30.dp)
                     .clip(RoundedCornerShape(50)),
 
-            )
+                )
 
             Text(text = userGuideUi.username, modifier = Modifier
                 .padding(start = 5.dp),

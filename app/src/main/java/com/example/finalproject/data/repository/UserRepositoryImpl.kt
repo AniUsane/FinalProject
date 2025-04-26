@@ -1,6 +1,5 @@
 package com.example.finalproject.data.repository
 
-import android.util.Log.d
 import com.example.finalproject.common.HandleResponse
 import com.example.finalproject.common.Resource
 import com.example.finalproject.data.mapper.asResource
@@ -24,8 +23,6 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun updateUser(user: User): Flow<Resource<User>> {
         return handleResponse.safeApiCall {
-            val dto = user.toDto()
-            d("userUpdate", "Sending this DTO: $dto")
             service.updateUser(user.id, user.toDto())
         }.asResource { it.toDomain() }
     }

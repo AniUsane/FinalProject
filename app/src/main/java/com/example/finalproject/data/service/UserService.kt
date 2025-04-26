@@ -1,6 +1,6 @@
 package com.example.finalproject.data.service
 
-import com.example.finalproject.data.model.UserDto
+import com.example.finalproject.data.model.auth.UserDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE

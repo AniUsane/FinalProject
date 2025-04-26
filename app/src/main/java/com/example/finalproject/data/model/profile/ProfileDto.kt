@@ -1,4 +1,4 @@
-package com.example.finalproject.data.model
+package com.example.finalproject.data.model.profile
 
 import kotlinx.serialization.Serializable
 

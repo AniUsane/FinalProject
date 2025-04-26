@@ -1,6 +1,6 @@
 package com.example.finalproject.data.service
 
-import com.example.finalproject.data.model.ImgBBUploadResponse
+import com.example.finalproject.data.model.profile.ImgBBUploadResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Multipart
 import retrofit2.http.POST
