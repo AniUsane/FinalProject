@@ -10,6 +10,12 @@ val Black = Color.Black
 val White = Color.White
 val Red = Color.Red
 val Gray = Color.Gray
+val PinkBackground = Color(0xFFFFE8E8)
+val OrangeColor = Color(0xFFE4572E)
+val TransparentColor = Color.Transparent
+val LightGray = Color(0xFFC7C7C7)
+val LightBlue = Color(0xFF58CCFF)
+val DarkGray = Color(0xC4494949)
 
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)

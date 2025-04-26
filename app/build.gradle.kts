@@ -56,9 +56,12 @@ android {
         buildTypes {
             debug {
                 buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
+                buildConfigField("String", "IMGBB_API_KEY", "\"41e7372e8a887955349a7b8e16db4036\"")
+                buildConfigField("String", "IMGBB_BASE_URL", "\"https://api.imgbb.com/\"")
             }
             release {
                 buildConfigField("String", "BASE_URL", "")
+
             }
         }
     }
@@ -74,6 +77,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     implementation (libs.converter.gson)
     androidTestImplementation(libs.androidx.junit)
@@ -105,8 +109,16 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
+    testImplementation(libs.junit.jupiter)
+
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    testImplementation(libs.truth)
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
 
 kapt {
     correctErrorTypes = true

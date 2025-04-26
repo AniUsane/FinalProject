@@ -1,12 +1,13 @@
-package com.example.finalproject.data.repository.auth
+package com.example.finalproject.data.repository
 
 import com.example.finalproject.common.HandleResponse
 import com.example.finalproject.common.Resource
 import com.example.finalproject.data.mapper.asResource
 import com.example.finalproject.data.mapper.toDomain
 import com.example.finalproject.data.mapper.toDto
+import com.example.finalproject.data.model.ProfileDto
 import com.example.finalproject.data.service.AuthService
-import com.example.finalproject.di.qualifier.Auth
+import com.example.finalproject.data.service.ProfileService
 import com.example.finalproject.domain.model.User
 import com.example.finalproject.domain.repository.RegisterRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class RegisterRepositoryImpl @Inject constructor(
     private val service: AuthService,
+    private val profileService: ProfileService,
     private val handleResponse: HandleResponse
 ): RegisterRepository {
     override suspend fun register(user: User): Flow<Resource<User>> {
@@ -30,7 +32,22 @@ class RegisterRepositoryImpl @Inject constructor(
                     "User with this email already exists".toResponseBody("text/plain".toMediaType())
                 )
             } else {
-                service.register(user.toDto())
+                val userResponse = service.register(user.toDto())
+                val registeredUser = userResponse.body() ?: throw Exception("Registration failed")
+
+                val profileDto = ProfileDto(
+                    id = "",
+                    userId = registeredUser.id,
+                    username = registeredUser.email.substringBefore("@"),
+                    fullName = registeredUser.fullName ?: "",
+                    profileImageUrl = null,
+                    bio = "",
+                    trips = emptyList(),
+                    guides = emptyList()
+                )
+
+                profileService.createProfile(profileDto)
+                userResponse
             }
         }.asResource {
             it.toDomain()

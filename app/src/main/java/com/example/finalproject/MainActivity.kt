@@ -1,25 +1,25 @@
 package com.example.finalproject
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.example.finalproject.presentation.navigation.RootNavigationGraph
+import androidx.appcompat.app.AppCompatActivity
+import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.presentation.navigation.SessionCheckerNavHost
+import com.example.finalproject.presentation.ui.theme.FinalProjectTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var dataStore: DataStoreRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var isAuthenticated by remember { mutableStateOf(false) }
-            RootNavigationGraph(
-                isAuthenticated = isAuthenticated,
-                onAuthSuccess = { isAuthenticated = true}
-            )
+            FinalProjectTheme{
+                SessionCheckerNavHost(dataStore)
+            }
         }
     }
 }

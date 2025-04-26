@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ფინალური პროექტი</string>
+    <string name="sign_in_with_facebook">Facebook-ით შესვლა </string>
+    <string name="sign_in_with_google">Google-ით შესვლა</string>
+    <string name="or">ან</string>
+    <string name="email">მეილი</string>
+    <string name="password">პაროლი</string>
+    <string name="remember_me">დაიმახსოვრე</string>
+    <string name="sign_in_with_email">მეილით შესვლა</string>
+    <string name="don_t_have_an_account_sign_up">არ გაქვს ანგარიში? დარეგისტრირდი</string>
+    <string name="english">ქართული 🌐</string>
+    <string name="sign_up_with_facebook">Facebook-ით რეგისტრაცია</string>
+    <string name="sign_up_with_google">Google-ით რეგისტრაცია</string>
+    <string name="full_name">სრული სახელი</string>
+    <string name="sign_up_with_email">მეილით რეგისტრაცია</string>
+    <string name="already_have_an_account_sign_in">გაქვს ანგარიში? შესვლა</string>
+    <string name="back">უკან</string>
+    <string name="account">ანგარიში</string>
+    <string name="profile_image">პროფილის სურათი</string>
+    <string name="username">სახელი</string>
+    <string name="save">შენახვა</string>
+    <string name="delete_icon">აიქონის წაშლა</string>
+    <string name="delete_account">ანგარიშის წაშლა</string>
+    <string name="settings">პარამეტრები</string>
+    <string name="user_preferences">მომხმარებლის პარამეტრები</string>
+    <string name="theme">თემა</string>
+    <string name="sort">დალაგება</string>
+    <string name="you_haven_t_planned_any_trips_yet">დაგეგმილი მოგზაურობები არ გაქვს</string>
+    <string name="start_planning_a_trip">დაგეგმე მოგზაურობა</string>
+    <string name="you_haven_t_added_any_guides_yet">გიდი არ გაქვთ დამატებული</string>
+    <string name="add_a_guide">დაამატე გიდი</string>
+    <string name="edit_image">სურათის რედაქტირება</string>
+    <string name="menu">მენიუ</string>
+    <string name="help_how_to"><![CDATA[დახმარება]]></string>
+    <string name="feedback_support"><![CDATA[უკუკავშირი]]></string>
+    <string name="log_out">გამოსვლა</string>
+    <string name="choose_language">აირჩიე ენა:</string>
+</resources>

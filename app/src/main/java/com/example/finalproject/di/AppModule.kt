@@ -4,6 +4,9 @@ import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.HandleResponse
 import com.example.finalproject.common.utils.ApiHelper
 import com.example.finalproject.data.service.AuthService
+import com.example.finalproject.data.service.ImgBBService
+import com.example.finalproject.data.service.ProfileService
+import com.example.finalproject.data.service.UserService
 import com.example.finalproject.di.qualifier.Auth
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -14,6 +17,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,7 +26,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    @Auth
+    @Named("RetrofitClient")
     fun provideRetrofitClient(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
@@ -33,8 +37,20 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(@Auth retrofit: Retrofit): AuthService {
+    fun provideAuthService(@Named("RetrofitClient") retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserService(@Named("RetrofitClient") retrofit: Retrofit): UserService {
+        return  retrofit.create(UserService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideProfileService(@Named("RetrofitClient") retrofit: Retrofit): ProfileService {
+        return retrofit.create(ProfileService::class.java)
     }
 
     @Provides
