@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.finalproject.presentation.navigation.RootNavigationGraph
+import com.example.finalproject.presentation.ui.theme.FinalProjectTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,11 +16,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+
             var isAuthenticated by remember { mutableStateOf(false) }
+            var toTripDestination by remember { mutableStateOf(false) }
+
+
             RootNavigationGraph(
                 isAuthenticated = isAuthenticated,
-                onAuthSuccess = { isAuthenticated = true}
+                toTripDestination = toTripDestination,
+                onAuthSuccess = { isAuthenticated = true },
+                onToTripDestination = {toTripDestination = true}
             )
+
         }
     }
 }

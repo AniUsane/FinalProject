@@ -1,5 +1,6 @@
 package com.example.finalproject.presentation.ui.screen.home
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,8 +24,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.finalproject.R
 import com.example.finalproject.presentation.mapper.toPresentation
+import com.example.finalproject.presentation.ui.screen.home.state.PopularDestinationState
 import com.example.finalproject.presentation.ui.screen.home.state.UserGuideState
-import com.example.tbc_final.ui.screen.home.HomeViewModel
+import com.example.finalproject.presentation.ui.screen.home.state.WeekendTripState
+import com.example.finalproject.presentation.ui.theme.White
 
 @Composable
 fun Home(
@@ -33,9 +37,10 @@ fun Home(
         viewModel.fetchUserGuides()
     }
 
+
     Column(
-        modifier = Modifier.
-        verticalScroll(rememberScrollState())
+        modifier = Modifier.background(color = White)
+            .verticalScroll(rememberScrollState())
     ) {
 
 
@@ -47,17 +52,19 @@ fun Home(
         buttonText = "Create new trip plan"
     )
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(35.dp))
         Text("Featured guides from users", fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp), fontSize = 25.sp)
 
 
     val userGuideState by viewModel.userGuidesState.collectAsStateWithLifecycle()
+    val weekendTripState by viewModel.weekendTripState.collectAsStateWithLifecycle()
+    val popularDestinationState by viewModel.popularDestinationState.collectAsStateWithLifecycle()
     Log.d("Home", "State: $userGuideState")
     when (userGuideState) {
         is UserGuideState.Success -> {
             Log.d("Home", "State: $userGuideState")
             LazyRow(
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                modifier = Modifier.padding(start = 3.dp, end = 3.dp)
             ) {
                 items((userGuideState as UserGuideState.Success).usersGuides) { userGuide ->
                     UserGuideItem(userGuide.toPresentation())
@@ -66,7 +73,7 @@ fun Home(
         }
 
         is UserGuideState.IsLoading -> {
-        CircularProgressIndicator()
+        CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally). padding(top = 100.dp, bottom = 100.dp))
         }
 
         is UserGuideState.Error -> {
@@ -77,7 +84,57 @@ fun Home(
         UserGuideState.Idle -> {}
     }
 
-        Spacer(modifier = Modifier.height(300.dp))
+        Spacer(modifier = Modifier.height(50.dp))
+        Text("Weekend trips", fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp), fontSize = 25.sp)
+
+        when(weekendTripState) {
+            is WeekendTripState.Success -> {
+                LazyRow(
+                    modifier = Modifier.padding(start = 3.dp, end = 3.dp)
+                ) {
+                    items((weekendTripState as WeekendTripState.Success).weekendTrips) { weekendTrip ->
+                        TripItem(weekendTrip)
+                    }
+                }
+            }
+
+            is WeekendTripState.IsLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally). padding(top = 50.dp, bottom = 50.dp))
+            }
+
+            is WeekendTripState.Error -> {
+
+            }
+
+
+            WeekendTripState.Idle -> {}
+        }
+
+        Spacer(modifier = Modifier.height(35.dp))
+        Text("Popular destinations", fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp), fontSize = 25.sp)
+
+        when(popularDestinationState) {
+            is PopularDestinationState.Success -> {
+                LazyRow(
+                    modifier = Modifier.padding(start = 3.dp, end = 3.dp)
+                ) {
+                    items((popularDestinationState as PopularDestinationState.Success).popularDestinations) { popularDestination ->
+                        TripItem(popularDestination)
+                    }
+                }
+            }
+
+            is PopularDestinationState.IsLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally). padding(top = 50.dp, bottom = 50.dp))
+            }
+
+            is PopularDestinationState.Error -> {
+
+            }
+
+
+            PopularDestinationState.Idle -> {}
+        }
 
 }
 

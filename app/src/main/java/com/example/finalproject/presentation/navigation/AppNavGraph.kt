@@ -40,11 +40,15 @@ fun AppNavGraph(onAuthSuccess: () -> Unit){
 @Composable
 fun RootNavigationGraph(
     isAuthenticated: Boolean,
-    onAuthSuccess: () -> Unit
+    toTripDestination: Boolean,
+    onAuthSuccess: () -> Unit,
+    onToTripDestination: () -> Unit
 ) {
     if (isAuthenticated) {
-        MyBottomAppBar()
-    } else {
+        MyBottomAppBar(onToTripDestination = onToTripDestination)
+        if (toTripDestination) TripNavGraph()
+    }
+    else {
         AppNavGraph(onAuthSuccess = onAuthSuccess)
     }
 }
