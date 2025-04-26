@@ -1,10 +1,10 @@
 package com.example.finalproject.di
 
 import com.example.finalproject.common.HandleResponse
-import com.example.finalproject.data.repository.LoginRepositoryImpl
 import com.example.finalproject.data.repository.ProfileRepositoryImpl
 import com.example.finalproject.data.repository.RegisterRepositoryImpl
 import com.example.finalproject.data.repository.UserRepositoryImpl
+import com.example.finalproject.data.repository.auth.LoginRepositoryImpl
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.data.service.ImgBBService
 import com.example.finalproject.data.service.ProfileService

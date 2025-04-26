@@ -2,12 +2,9 @@ package com.example.finalproject.di
 
 import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.HandleResponse
-import com.example.finalproject.common.utils.ApiHelper
 import com.example.finalproject.data.service.AuthService
-import com.example.finalproject.data.service.ImgBBService
 import com.example.finalproject.data.service.ProfileService
 import com.example.finalproject.data.service.UserService
-import com.example.finalproject.di.qualifier.Auth
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
+import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.mediumSpace
 
 @Composable
 fun IconDropdownMenuItem(

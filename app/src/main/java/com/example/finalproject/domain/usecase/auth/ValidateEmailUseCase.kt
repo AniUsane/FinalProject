@@ -1,6 +1,8 @@
 package com.example.finalproject.domain.usecase.auth
 
-class ValidateEmailUseCase {
+import javax.inject.Inject
+
+class ValidateEmailUseCase @Inject constructor() {
     operator fun invoke(email: String): Boolean {
         return email.isNotEmpty() && email.matches(emailRegex)
     }

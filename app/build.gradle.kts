@@ -60,7 +60,7 @@ android {
                 buildConfigField("String", "IMGBB_BASE_URL", "\"https://api.imgbb.com/\"")
             }
             release {
-                buildConfigField("String", "BASE_URL", "")
+                buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
 
             }
         }

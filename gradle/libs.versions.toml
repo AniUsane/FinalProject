@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.1"
 coilCompose = "3.1.0"
+composeBomVersion = "2024.04.00"
 datastorePreferencesCore = "1.1.5"
 hiltAndroidCompiler = "2.55"
 hiltNavigationCompose = "1.2.0"

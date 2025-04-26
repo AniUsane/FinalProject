@@ -6,7 +6,6 @@ import com.example.finalproject.data.mapper.asResource
 import com.example.finalproject.data.mapper.toDomain
 import com.example.finalproject.data.model.auth.LoginResponseDto
 import com.example.finalproject.data.service.AuthService
-import com.example.finalproject.di.qualifier.Auth
 import com.example.finalproject.domain.model.LoginResponse
 import com.example.finalproject.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow

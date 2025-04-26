@@ -60,11 +60,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import com.example.finalproject.R
 import com.example.finalproject.presentation.model.ProfileUi
-import com.example.finalproject.presentation.ui.screen.components.CollectEffect
-import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
-import com.example.finalproject.presentation.ui.screen.components.Dimensions.profileImage
-import com.example.finalproject.presentation.ui.screen.components.Dimensions.smallSpace
-import com.example.finalproject.presentation.ui.screen.components.Dimensions.thirtyDp
+import com.example.finalproject.presentation.ui.screen.auth.components.CollectEffect
+import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.mediumSpace
+import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.profileImage
+import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.smallSpace
+import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.thirtyDp
 import com.example.finalproject.presentation.ui.screen.components.EmptyState
 import com.example.finalproject.presentation.ui.screen.components.IconDropdownMenuItem
 import com.example.finalproject.presentation.ui.theme.Gray

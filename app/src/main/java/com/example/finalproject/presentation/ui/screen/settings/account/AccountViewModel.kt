@@ -14,7 +14,7 @@ import com.example.finalproject.domain.usecase.DeleteProfileUseCase
 import com.example.finalproject.domain.usecase.DeleteUserUseCase
 import com.example.finalproject.domain.usecase.UpdateProfileUseCase
 import com.example.finalproject.domain.usecase.UpdateUserUseCase
-import com.example.finalproject.domain.usecase.ValidateEmailUseCase
+import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.firstOrNull
