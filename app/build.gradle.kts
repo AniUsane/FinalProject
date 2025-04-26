@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +9,9 @@ plugins {
     alias(libs.plugins.serialization)
     alias(libs.plugins.compose.compiler)
 }
+
+val localProperties = Properties()
+localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.example.finalproject"
@@ -57,9 +63,19 @@ android {
         buildTypes {
             debug {
                 buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
+                buildConfigField("String", "BASE_URL_FOR_TOKEN", "\"https://test.api.amadeus.com/\"")
+                buildConfigField("String", "AMADEUS_API_KEY",
+                    localProperties.getProperty("AMADEUS_API_KEY")
+                )
+                buildConfigField("String", "AMADEUS_API_SECRET",
+                    localProperties.getProperty("AMADEUS_API_SECRET")
+                )
             }
             release {
                 buildConfigField("String", "BASE_URL", "")
+                buildConfigField("String", "BASE_URL_FOR_TOKEN", "")
+                buildConfigField("String", "AMADEUS_API_KEY", "")
+                buildConfigField("String", "AMADEUS_API_SECRET", "")
             }
         }
     }

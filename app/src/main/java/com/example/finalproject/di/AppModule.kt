@@ -12,6 +12,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -20,6 +21,7 @@ object AppModule {
 
     @Singleton
     @Provides
+    @Named("RetrofitClient")
     fun provideRetrofitClient(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
@@ -30,8 +32,19 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService {
+    fun provideAuthService(@Named("RetrofitClient") retrofit: Retrofit): AuthService {
         return retrofit.create(AuthService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    @Named("OAuthToken")
+    fun provideOAuthTokenClient(okHttpClient: OkHttpClient):Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL_FOR_TOKEN)
+            .client(okHttpClient)
+            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .build()
     }
 
     @Provides
