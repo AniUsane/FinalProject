@@ -8,8 +8,8 @@ import com.example.finalproject.data.mapper.toDto
 import com.example.finalproject.data.model.profile.ProfileDto
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.data.service.ProfileService
-import com.example.finalproject.domain.model.User
-import com.example.finalproject.domain.repository.RegisterRepository
+import com.example.finalproject.domain.model.profile.User
+import com.example.finalproject.domain.repository.auth.RegisterRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody

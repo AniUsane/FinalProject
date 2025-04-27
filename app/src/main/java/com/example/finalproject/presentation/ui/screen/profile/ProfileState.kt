@@ -1,6 +1,6 @@
 package com.example.finalproject.presentation.ui.screen.profile
 
-import com.example.finalproject.presentation.model.ProfileUi
+import com.example.finalproject.presentation.model.user.ProfileUi
 
 data class ProfileState(
     val isLoading: Boolean = false,

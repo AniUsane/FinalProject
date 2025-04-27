@@ -36,4 +36,22 @@
     <string name="feedback_support"><![CDATA[უკუკავშირი]]></string>
     <string name="log_out">გამოსვლა</string>
     <string name="choose_language">აირჩიე ენა:</string>
+    <string name="book_hotels">სასტუმროს დაჯავშნა</string>
+    <string name="when_string">როდის</string>
+    <string name="travelers">მოგზაურები</string>
+    <string name="search">ძებნა</string>
+    <string name="recently_searched">ბოლოს მოძებნილი</string>
+    <string name="search_destinations">მიმართლება</string>
+    <string name="search_destination">მიმართულება...</string>
+    <string name="no_destination_found">მიმართულება ვერ მოიძებნა</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="adults">ზრდასრულები: %1$s</string>
+    <string name="children">ბავშვები: %1$s</string>
+    <string name="rooms">ოთახები: %1$s</string>
+    <string name="where">"სად  "</string>
+    <string name="city_you_re_visiting">ქალაქი რომელსაც სტუმრობ</string>
+    <string name="cancel">გაუქმება</string>
+    <string name="stay_duration">ხანგრძლივობა</string>
+    <string name="done">დასრულება</string>
 </resources>

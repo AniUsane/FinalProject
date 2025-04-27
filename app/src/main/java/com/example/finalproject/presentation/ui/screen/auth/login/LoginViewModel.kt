@@ -3,8 +3,8 @@ package com.example.finalproject.presentation.ui.screen.auth.login
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.BaseViewModel
 import com.example.finalproject.common.Resource
-import com.example.finalproject.data.repository.PreferenceKeys
-import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.data.repository.dataStore.PreferenceKeys
+import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import com.example.finalproject.domain.usecase.auth.LoginUseCase
 import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import com.example.finalproject.domain.usecase.auth.ValidatePasswordUseCase

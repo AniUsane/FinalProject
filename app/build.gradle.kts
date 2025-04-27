@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +9,9 @@ plugins {
     alias(libs.plugins.compose.compiler)
     id("kotlin-kapt")
 }
+
+val localProperties = Properties()
+localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.example.finalproject"
@@ -34,6 +40,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -55,9 +62,20 @@ android {
         buildConfig = true
         buildTypes {
             debug {
-                buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
-                buildConfigField("String", "IMGBB_API_KEY", "\"41e7372e8a887955349a7b8e16db4036\"")
-                buildConfigField("String", "IMGBB_BASE_URL", "\"https://api.imgbb.com/\"")
+                buildConfigField("String", "BASE_URL",
+                    "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
+                buildConfigField("String", "IMGBB_API_KEY",
+                    localProperties.getProperty("AMADEUS_API_KEY"))
+                buildConfigField("String", "IMGBB_BASE_URL",
+                    "\"https://api.imgbb.com/\"")
+                buildConfigField("String", "BASE_URL_FOR_TOKEN",
+                    "\"https://test.api.amadeus.com/\"")
+                buildConfigField("String", "AMADEUS_API_KEY",
+                    localProperties.getProperty("AMADEUS_API_KEY")
+                )
+                buildConfigField("String", "AMADEUS_API_SECRET",
+                    localProperties.getProperty("AMADEUS_API_SECRET")
+                )
             }
             release {
                 buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
@@ -112,6 +130,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     testImplementation(libs.truth)
+
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
 tasks.withType<Test>().configureEach {

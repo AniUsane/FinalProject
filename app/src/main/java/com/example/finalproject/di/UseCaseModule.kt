@@ -1,7 +1,7 @@
 package com.example.finalproject.di
 
-import com.example.finalproject.domain.repository.LoginRepository
-import com.example.finalproject.domain.repository.RegisterRepository
+import com.example.finalproject.domain.repository.auth.LoginRepository
+import com.example.finalproject.domain.repository.auth.RegisterRepository
 import com.example.finalproject.domain.usecase.auth.LoginUseCase
 import com.example.finalproject.domain.usecase.auth.RegisterUseCase
 import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase

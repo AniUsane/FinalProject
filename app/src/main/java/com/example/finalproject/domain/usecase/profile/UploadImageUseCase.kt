@@ -1,7 +1,7 @@
 package com.example.finalproject.domain.usecase.profile
 
 import com.example.finalproject.common.Resource
-import com.example.finalproject.domain.repository.ProfileRepository
+import com.example.finalproject.domain.repository.profile.ProfileRepository
 import okhttp3.MultipartBody
 import javax.inject.Inject
 

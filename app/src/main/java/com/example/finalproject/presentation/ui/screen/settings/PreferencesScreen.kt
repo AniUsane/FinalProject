@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.finalproject.R
-import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.mediumSpace
-import com.example.finalproject.presentation.ui.screen.auth.components.Dimensions.smallSpace
+import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
+import com.example.finalproject.presentation.ui.screen.components.Dimensions.smallSpace
 import com.example.finalproject.presentation.ui.screen.components.LanguagePicker
 import com.example.finalproject.presentation.ui.theme.White
 

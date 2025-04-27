@@ -1,8 +1,8 @@
 package com.example.finalproject.domain.usecase.auth
 
 import com.example.finalproject.common.Resource
-import com.example.finalproject.domain.model.LoginResponse
-import com.example.finalproject.domain.repository.LoginRepository
+import com.example.finalproject.domain.model.auth.LoginResponse
+import com.example.finalproject.domain.repository.auth.LoginRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

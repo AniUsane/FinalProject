@@ -6,8 +6,8 @@ import com.example.finalproject.data.mapper.asResource
 import com.example.finalproject.data.mapper.toDomain
 import com.example.finalproject.data.model.auth.LoginResponseDto
 import com.example.finalproject.data.service.AuthService
-import com.example.finalproject.domain.model.LoginResponse
-import com.example.finalproject.domain.repository.LoginRepository
+import com.example.finalproject.domain.model.auth.LoginResponse
+import com.example.finalproject.domain.repository.auth.LoginRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody

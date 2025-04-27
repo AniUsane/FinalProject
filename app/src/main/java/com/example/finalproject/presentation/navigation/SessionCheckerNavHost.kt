@@ -12,8 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.finalproject.data.repository.PreferenceKeys
-import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.data.repository.dataStore.PreferenceKeys
+import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import kotlinx.coroutines.flow.first
 
 @Composable
@@ -26,7 +26,7 @@ fun SessionCheckerNavHost(dataStore: DataStoreRepository) {
         val userId = dataStore.readString(PreferenceKeys.USER_ID_KEY).first()
 
         startDestination = if (token.isNotBlank() && userId.isNotBlank()) {
-            Routes.PROFILE
+            Routes.HOME
         } else {
             Routes.LOGIN
         }

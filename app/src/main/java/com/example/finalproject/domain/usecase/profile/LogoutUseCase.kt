@@ -1,6 +1,6 @@
 package com.example.finalproject.domain.usecase.profile
 
-import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import javax.inject.Inject
 
 class LogoutUseCase @Inject constructor(

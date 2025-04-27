@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.finalproject.BaseViewModel
 import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.Resource
-import com.example.finalproject.data.repository.PreferenceKeys
-import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.data.repository.dataStore.PreferenceKeys
+import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import com.example.finalproject.domain.usecase.profile.DeleteProfileUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteUserUseCase
 import com.example.finalproject.domain.usecase.profile.ProfileUseCase

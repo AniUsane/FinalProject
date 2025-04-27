@@ -1,7 +1,7 @@
 package com.example.finalproject.presentation.ui.viewmodel
 
 import com.example.finalproject.common.Resource
-import com.example.finalproject.domain.model.User
+import com.example.finalproject.domain.model.profile.User
 import com.example.finalproject.domain.usecase.auth.RegisterUseCase
 import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import com.example.finalproject.domain.usecase.auth.ValidatePasswordUseCase
@@ -63,12 +63,14 @@ class RegistrationViewModelTest {
         every { passwordValidator(any()) } returns true
 
         coEvery { registerUseCase(any()) } returns flow {
-            emit(Resource.Success(User(
+            emit(Resource.Success(
+                User(
                 id = "1",
                 email = "test@gmail.com",
                 password = "test123",
                 fullName = "test test"
-            )))
+            )
+            ))
         }
 
         viewModel.obtainEvent(RegistrationEvent.OnEmailChanged("test@mail.com"))

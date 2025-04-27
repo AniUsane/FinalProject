@@ -44,10 +44,10 @@ fun BottomNavBar(navController: NavController){
             )
         )
         NavigationBarItem(
-            selected = currentRoute == HomeScreenDestination::class.qualifiedName,
-            onClick = {navController.navigate(HomeScreenDestination)},
-            icon = { Icon(Icons.Default.Hotel, contentDescription = "Hotel",
-                tint = if(currentRoute == HomeScreenDestination::class.qualifiedName) Black else LightGray)},
+            selected = currentRoute == BookHotelScreenDestination::class.qualifiedName,
+            onClick = {navController.navigate(BookHotelScreenDestination)},
+            icon = { Icon(Icons.Default.Hotel, contentDescription = "BookHotel",
+                tint = if(currentRoute == BookHotelScreenDestination::class.qualifiedName) Black else LightGray)},
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Black,
                 unselectedIconColor = LightGray,

@@ -1,6 +1,6 @@
 package com.example.finalproject.domain.usecase.profile
 
-import com.example.finalproject.domain.repository.ProfileRepository
+import com.example.finalproject.domain.repository.profile.ProfileRepository
 import javax.inject.Inject
 
 class DeleteProfileUseCase @Inject constructor(

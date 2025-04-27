@@ -3,9 +3,9 @@ package com.example.finalproject.data.mapper
 import com.example.finalproject.data.model.auth.LoginResponseDto
 import com.example.finalproject.data.model.auth.RegisterResponseDto
 import com.example.finalproject.data.model.auth.UserDto
-import com.example.finalproject.domain.model.LoginResponse
-import com.example.finalproject.domain.model.RegisterResponse
-import com.example.finalproject.domain.model.User
+import com.example.finalproject.domain.model.auth.LoginResponse
+import com.example.finalproject.domain.model.auth.RegisterResponse
+import com.example.finalproject.domain.model.profile.User
 
 fun UserDto.toDomain() = User(
     id = id,

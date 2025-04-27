@@ -2,6 +2,7 @@ package com.example.finalproject.di
 
 import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.HandleResponse
+import com.example.finalproject.common.utils.ApiHelper
 import com.example.finalproject.data.service.AuthService
 import com.example.finalproject.data.service.ProfileService
 import com.example.finalproject.data.service.UserService
@@ -16,7 +17,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Named
 import javax.inject.Singleton
-import com.example.finalproject.common.utils.ApiHelper
 
 @Module
 @InstallIn(SingletonComponent::class)

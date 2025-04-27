@@ -1,7 +1,7 @@
 package com.example.finalproject.presentation.ui.screen.settings.account
 
-import com.example.finalproject.domain.model.Profile
-import com.example.finalproject.domain.model.User
+import com.example.finalproject.domain.model.profile.Profile
+import com.example.finalproject.domain.model.profile.User
 
 data class AccountState(
     val id: String = "",

@@ -1,9 +1,9 @@
 package com.example.finalproject.presentation.mapper
 
-import com.example.finalproject.domain.model.Profile
-import com.example.finalproject.domain.model.User
-import com.example.finalproject.presentation.model.ProfileUi
-import com.example.finalproject.presentation.model.UserUi
+import com.example.finalproject.domain.model.profile.Profile
+import com.example.finalproject.domain.model.profile.User
+import com.example.finalproject.presentation.model.user.ProfileUi
+import com.example.finalproject.presentation.model.user.UserUi
 
 fun User.toPresentation() = UserUi(
     id = id,

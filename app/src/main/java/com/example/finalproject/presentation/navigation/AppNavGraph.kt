@@ -10,6 +10,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.finalproject.presentation.ui.screen.bookHotel.BookHotelScreen
+import com.example.finalproject.presentation.ui.screen.bookHotel.calendar.ChooseDateScreen
+import com.example.finalproject.presentation.ui.screen.bookHotel.citySearch.CitySearchScreen
+import com.example.finalproject.presentation.ui.screen.bookHotel.travelers.TravelersScreen
 import com.example.finalproject.presentation.ui.screen.home.Home
 import com.example.finalproject.presentation.ui.screen.login.LoginScreen
 import com.example.finalproject.presentation.ui.screen.profile.ProfileScreen
@@ -20,6 +24,7 @@ import com.example.finalproject.presentation.ui.screen.settings.SettingsScreen
 import com.example.finalproject.presentation.ui.screen.settings.account.AccountScreen
 import com.example.finalproject.presentation.ui.theme.TransparentColor
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
 
 @Serializable
 data object LoginScreenDestination
@@ -37,6 +42,14 @@ data object AccountScreenDestination
 data object PreferencesScreenDestination
 @Serializable
 data object ThemeScreenDestination
+@Serializable
+data object BookHotelScreenDestination
+@Serializable
+data object CitySearchScreenDestination
+@Serializable
+data object ChooseDateScreenDestination
+@Serializable
+data object TravelersScreenDestination
 
 @Composable
 fun AppNavGraph(
@@ -53,9 +66,8 @@ fun AppNavGraph(
             if(currentRoute in listOf(
                 ProfileScreenDestination::class.qualifiedName,
                 HomeScreenDestination::class.qualifiedName,
-                SettingsScreenDestination::class.qualifiedName,
-                AccountScreenDestination::class.qualifiedName,
-                PreferencesScreenDestination::class.qualifiedName
+                PreferencesScreenDestination::class.qualifiedName,
+                BookHotelScreenDestination::class.qualifiedName
             )) {
                 BottomNavBar(navController)
             }
@@ -64,7 +76,7 @@ fun AppNavGraph(
 
         NavHost(navController = navController,
             startDestination = when (startDestination) {
-                "profile" -> ProfileScreenDestination
+                "home" -> HomeScreenDestination
                 else -> LoginScreenDestination},
             modifier = Modifier.padding(padding))
         {
@@ -124,6 +136,60 @@ fun AppNavGraph(
 
             composable<PreferencesScreenDestination> {
                 PreferencesScreen(navigateBack = { navController.popBackStack() })
+            }
+
+            composable<BookHotelScreenDestination> {
+                val savedStateHandle = it.savedStateHandle
+                BookHotelScreen(
+                    navigateToCitySearch = { navController.navigate(CitySearchScreenDestination) },
+                    savedStateHandle = savedStateHandle,
+                    navigateToChooseDate = { navController.navigate(ChooseDateScreenDestination)},
+                    navigateToTravelers = {navController.navigate(TravelersScreenDestination)}
+                )
+            }
+
+            composable<CitySearchScreenDestination> {
+                CitySearchScreen(
+                    onCitySelected = { city ->
+                        navController.previousBackStackEntry?.savedStateHandle?.set("city_name", city.name)
+                        navController.previousBackStackEntry?.savedStateHandle?.set("city_country", city.countryName)
+
+                        navController.popBackStack()
+                    },
+                    onBackPressed = { navController.popBackStack() }
+                )
+            }
+
+            composable<ChooseDateScreenDestination> {
+                ChooseDateScreen(
+                    startDate = it.savedStateHandle.get<LocalDate>("check_in"),
+                    endDate = it.savedStateHandle.get<LocalDate>("check_out"),
+                    onDoneClicked = { (startDate, endDate) ->
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("check_in", startDate)
+
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("check_out", endDate)
+
+                        navController.popBackStack()
+                    },
+                    onBackPressed = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            composable<TravelersScreenDestination> {
+                TravelersScreen(
+                    onSaveTravelers = { travelers ->
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("travelers", travelers)
+                        navController.popBackStack()
+                    }
+                )
             }
 
 //        composable<ThemeScreenDestination> {

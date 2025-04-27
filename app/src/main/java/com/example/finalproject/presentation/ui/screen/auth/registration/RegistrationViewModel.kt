@@ -7,7 +7,7 @@ import com.example.finalproject.domain.usecase.auth.RegisterUseCase
 import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import com.example.finalproject.domain.usecase.auth.ValidatePasswordUseCase
 import com.example.finalproject.presentation.mapper.toDomain
-import com.example.finalproject.presentation.model.UserUi
+import com.example.finalproject.presentation.model.user.UserUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

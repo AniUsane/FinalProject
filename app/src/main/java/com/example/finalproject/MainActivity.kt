@@ -3,7 +3,7 @@ package com.example.finalproject
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import com.example.finalproject.presentation.navigation.SessionCheckerNavHost
 import com.example.finalproject.presentation.ui.theme.FinalProjectTheme
 import dagger.hilt.android.AndroidEntryPoint

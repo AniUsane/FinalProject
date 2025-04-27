@@ -1,7 +1,7 @@
 package com.example.finalproject.di
 
-import com.example.finalproject.data.repository.auth.DataStoreRepositoryImpl
-import com.example.finalproject.domain.repository.DataStoreRepository
+import com.example.finalproject.data.repository.dataStore.DataStoreRepositoryImpl
+import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

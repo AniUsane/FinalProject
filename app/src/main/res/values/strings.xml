@@ -35,5 +35,23 @@
     <string name="feedback_support"><![CDATA[Feedback & support]]></string>
     <string name="log_out">Log out</string>
     <string name="choose_language">Choose language:</string>
+    <string name="book_hotels">Book hotels</string>
+    <string name="when_string">When</string>
+    <string name="travelers">Travelers</string>
+    <string name="search">Search</string>
+    <string name="recently_searched">Recently searched</string>
+    <string name="search_destinations">Search destinations</string>
+    <string name="search_destination">Search destination...</string>
+    <string name="no_destination_found">No destination found</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="adults">Adults: %1$s</string>
+    <string name="children">Children: %1$s</string>
+    <string name="rooms">Rooms: %1$s</string>
+    <string name="where">"Where  "</string>
+    <string name="city_you_re_visiting">City you\'re visiting</string>
+    <string name="cancel">Cancel</string>
+    <string name="stay_duration">Stay duration</string>
+    <string name="done">Done</string>
 
 </resources>
