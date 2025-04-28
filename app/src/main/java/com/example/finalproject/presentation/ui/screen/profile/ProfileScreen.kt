@@ -152,7 +152,7 @@ fun ProfileContent(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabTitles = listOf("Trips", "Guides")
+    val tabTitles = listOf(stringResource(R.string.trips), stringResource(R.string.guides))
     var sortDialogVisible by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -257,7 +257,7 @@ fun ProfileContent(
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.height(70.dp))
+                    Spacer(modifier = Modifier.height(70.dp))
                 Box(contentAlignment = Alignment.BottomEnd) {
                     Image(
                         painter = rememberAsyncImagePainter(
@@ -283,7 +283,7 @@ fun ProfileContent(
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = stringResource(R.string.edit_image),
-                            modifier = Modifier.size(14.dp),
+                            modifier = Modifier.size(mediumSpace),
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     }

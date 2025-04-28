@@ -28,8 +28,8 @@
     <string name="sort">დალაგება</string>
     <string name="you_haven_t_planned_any_trips_yet">დაგეგმილი მოგზაურობები არ გაქვს</string>
     <string name="start_planning_a_trip">დაგეგმე მოგზაურობა</string>
-    <string name="you_haven_t_added_any_guides_yet">გიდი არ გაქვთ დამატებული</string>
-    <string name="add_a_guide">დაამატე გიდი</string>
+    <string name="you_haven_t_added_any_guides_yet">გზამკვლევი არ გაქვთ დამატებული</string>
+    <string name="add_a_guide">დაამატე გზამკვლევი</string>
     <string name="edit_image">სურათის რედაქტირება</string>
     <string name="menu">მენიუ</string>
     <string name="help_how_to"><![CDATA[დახმარება]]></string>
@@ -54,4 +54,6 @@
     <string name="cancel">გაუქმება</string>
     <string name="stay_duration">ხანგრძლივობა</string>
     <string name="done">დასრულება</string>
+    <string name="trips">მოგზაურობები</string>
+    <string name="guides">გზამკვლელი</string>
 </resources>

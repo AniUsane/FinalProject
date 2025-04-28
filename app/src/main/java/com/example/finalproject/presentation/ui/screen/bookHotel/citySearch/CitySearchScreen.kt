@@ -1,5 +1,6 @@
 package com.example.finalproject.presentation.ui.screen.bookHotel.citySearch
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,9 +77,13 @@ fun CitySearchContent(
     snackBarHostState: SnackbarHostState,
     navigateBack: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val paddingValue = if(isLandscape) bigSpace else mediumSpace
+
     Box(modifier = Modifier
         .fillMaxSize()
-        .padding(horizontal = mediumSpace)
+        .padding(horizontal = paddingValue)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(bigSpace))

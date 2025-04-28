@@ -1,4 +1,4 @@
-package com.example.finalproject.presentation.ui.screen.login
+package com.example.finalproject.presentation.ui.screen.auth.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -34,13 +34,9 @@ import com.example.finalproject.presentation.ui.screen.components.CollectEffect
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.bigSpace
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.smallSpace
+import com.example.finalproject.presentation.ui.screen.components.LanguagePicker
 import com.example.finalproject.presentation.ui.screen.components.StyledButton
 import com.example.finalproject.presentation.ui.screen.components.StyledTextField
-import com.example.finalproject.presentation.ui.screen.auth.login.LoginEffect
-import com.example.finalproject.presentation.ui.screen.auth.login.LoginEvent
-import com.example.finalproject.presentation.ui.screen.auth.login.LoginState
-import com.example.finalproject.presentation.ui.screen.auth.login.LoginViewModel
-import com.example.finalproject.presentation.ui.screen.components.LanguagePicker
 import com.example.finalproject.presentation.ui.theme.Black
 import com.example.finalproject.presentation.ui.theme.Gray
 import com.example.finalproject.presentation.ui.theme.LightGray
@@ -53,7 +49,7 @@ import com.example.finalproject.presentation.ui.theme.White
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navigateToRegister: () -> Unit,
-    navigateToProfile: () -> Unit
+    navigateToHome: () -> Unit
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -61,7 +57,7 @@ fun LoginScreen(
     CollectEffect(flow = viewModel.effects) { effect ->
         when (effect) {
             is LoginEffect.NavigateToRegister -> navigateToRegister()
-            is LoginEffect.NavigateToHome -> navigateToProfile()
+            is LoginEffect.NavigateToHome -> navigateToHome()
         }
     }
 

@@ -10,12 +10,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.finalproject.presentation.ui.screen.auth.login.LoginScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.BookHotelScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.calendar.ChooseDateScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.citySearch.CitySearchScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.travelers.TravelersScreen
 import com.example.finalproject.presentation.ui.screen.home.Home
-import com.example.finalproject.presentation.ui.screen.login.LoginScreen
 import com.example.finalproject.presentation.ui.screen.profile.ProfileScreen
 import com.example.finalproject.presentation.ui.screen.profile.ProfileScreenCallbacks
 import com.example.finalproject.presentation.ui.screen.registration.RegistrationScreen
@@ -50,6 +50,10 @@ data object CitySearchScreenDestination
 data object ChooseDateScreenDestination
 @Serializable
 data object TravelersScreenDestination
+@Serializable
+data object AddGuideScreenDestination
+@Serializable
+data object AddTripScreenDestination
 
 @Composable
 fun AppNavGraph(
@@ -84,8 +88,8 @@ fun AppNavGraph(
                 LoginScreen(navigateToRegister = {
                     navController.navigate(RegistrationScreenDestination)
                 },
-                    navigateToProfile = {
-                        navController.navigate(ProfileScreenDestination){
+                    navigateToHome = {
+                        navController.navigate(HomeScreenDestination){
                             popUpTo(LoginScreenDestination) { inclusive = true }
                         }
                     })

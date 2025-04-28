@@ -1,14 +1,16 @@
 package com.example.finalproject.presentation.ui.screen.settings.account
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -89,141 +92,150 @@ fun AccountContent(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val paddingValue = if(isLandscape) bigSpace else mediumSpace
+
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .background(White)
-            .padding(horizontal = mediumSpace),
+            .padding(horizontal = paddingValue),
         horizontalAlignment = Alignment.Start
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(smallSpace)
-        ) {
-            IconButton(
-                onClick = navigateBack,
-                modifier = Modifier.align(Alignment.CenterStart)
-            ) {
-                Icon(painterResource(R.drawable.back_arrow), contentDescription = stringResource(R.string.back))
-            }
-
-            Text(
-                text = stringResource(R.string.account),
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
-
-        HorizontalDivider()
-
-        Box(
-            modifier = Modifier
-                .padding(vertical = mediumSpace)
-                .size(profileImage)
-                .background(LightGray, CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-
-            val shouldShowInitials = state.profileImageUrl.isNullOrBlank() ||
-                    state.profileImageUrl.equals("null", ignoreCase = true) ||
-                    !state.profileImageUrl.startsWith("http")
-
-            if (shouldShowInitials) {
-                Text(
-                    text = state.nameInitial,
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = White
-                )
-            } else {
-                Image(
-                    painter = rememberAsyncImagePainter(state.profileImageUrl),
-                    contentDescription = stringResource(R.string.profile_image),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape)
-                )
-            }
-        }
-
-        StyledTextField(
-            value = state.name,
-            onValueChange = { onEvent(AccountEvent.NameChanged(it)) },
-            label = stringResource(R.string.full_name),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = smallSpace)
-        )
-
-        StyledTextField(
-            value = state.username,
-            onValueChange = { onEvent(AccountEvent.UsernameChanged(it)) },
-            label = stringResource(R.string.username),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = smallSpace)
-        )
-
-        StyledTextField(
-            value = state.email,
-            onValueChange = { onEvent(AccountEvent.EmailChanged(it)) },
-            label = stringResource(R.string.email),
-            isError = state.emailError != null,
-            errorMessage = state.emailError,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = smallSpace)
-        )
-
-        val isSaveEnabled = (state.name != state.fullName) ||
-                (state.email != state.user?.email) ||
-                (state.username != state.profile?.username)
-
-        TextButton(
-            onClick = { onEvent(AccountEvent.SaveClicked) },
-            enabled = isSaveEnabled && !state.isLoading,
-            modifier = Modifier
-                .fillMaxWidth(0.3f)
-                .background(
-                    if (isSaveEnabled) OrangeColor else LightGray,
-                    RoundedCornerShape(bigSpace)
-                )
-        ) {
-            if(state.isLoading){
-                CircularProgressIndicator(
-                    modifier = Modifier.size(mediumSpace),
-                    color = White
-                )
-            }else{
-                Text(stringResource(R.string.save), color = White)
-            }
-        }
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = mediumSpace))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.Start)
-        ){
-            Icon(
-                painter = painterResource(id = R.drawable.bin_icon),
-                contentDescription = stringResource(R.string.delete_icon),
-                tint = DarkGray,
-                modifier = Modifier.size(mediumSpace)
-            )
-
-            Text(
-                text = stringResource(R.string.delete_account),
+        item{
+            Box(
                 modifier = Modifier
-                    .padding(start = mediumSpace)
-                    .clickable { onEvent(AccountEvent.DeleteClicked) },
-                color = DarkGray,
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-            )
-        }
+                    .fillMaxWidth()
+                    .padding(smallSpace)
+            ) {
+                IconButton(
+                    onClick = navigateBack,
+                    modifier = Modifier.align(Alignment.CenterStart)
+                ) {
+                    Icon(painterResource(R.drawable.back_arrow), contentDescription = stringResource(R.string.back))
+                }
 
+                Text(
+                    text = stringResource(R.string.account),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            HorizontalDivider()
+
+            Box(
+                modifier = Modifier
+                    .padding(vertical = mediumSpace)
+                    .size(profileImage)
+                    .background(LightGray, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+
+                val shouldShowInitials = state.profileImageUrl.isNullOrBlank() ||
+                        state.profileImageUrl.equals("null", ignoreCase = true) ||
+                        !state.profileImageUrl.startsWith("http")
+
+                if (shouldShowInitials) {
+                    Text(
+                        text = state.nameInitial,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = White
+                    )
+                } else {
+                    Image(
+                        painter = rememberAsyncImagePainter(state.profileImageUrl),
+                        contentDescription = stringResource(R.string.profile_image),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                    )
+                }
+            }
+
+            StyledTextField(
+                value = state.name,
+                onValueChange = { onEvent(AccountEvent.NameChanged(it)) },
+                label = stringResource(R.string.full_name),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = smallSpace)
+            )
+
+            StyledTextField(
+                value = state.username,
+                onValueChange = { onEvent(AccountEvent.UsernameChanged(it)) },
+                label = stringResource(R.string.username),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = smallSpace)
+            )
+
+            StyledTextField(
+                value = state.email,
+                onValueChange = { onEvent(AccountEvent.EmailChanged(it)) },
+                label = stringResource(R.string.email),
+                isError = state.emailError != null,
+                errorMessage = state.emailError,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = smallSpace)
+            )
+
+            val isSaveEnabled = (state.name != state.fullName) ||
+                    (state.email != state.user?.email) ||
+                    (state.username != state.profile?.username)
+
+            TextButton(
+                onClick = { onEvent(AccountEvent.SaveClicked) },
+                enabled = isSaveEnabled && !state.isLoading,
+                modifier = Modifier
+                    .fillMaxWidth(0.3f)
+                    .background(
+                        if (isSaveEnabled) OrangeColor else LightGray,
+                        RoundedCornerShape(bigSpace)
+                    )
+            ) {
+                if(state.isLoading){
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(mediumSpace),
+                        color = White
+                    )
+                }else{
+                    Text(stringResource(R.string.save), color = White)
+                }
+            }
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = mediumSpace))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onEvent(AccountEvent.DeleteClicked) }
+                    .padding(vertical = smallSpace),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.bin_icon),
+                    contentDescription = stringResource(R.string.delete_icon),
+                    tint = DarkGray,
+                    modifier = Modifier.size(mediumSpace)
+                )
+
+                Text(
+                    text = stringResource(R.string.delete_account),
+                    modifier = Modifier
+                        .padding(start = mediumSpace)
+                        .clickable { onEvent(AccountEvent.DeleteClicked) },
+                    color = DarkGray,
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                )
+            }
+
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.finalproject.presentation.ui.screen.bookHotel
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hotel
 import androidx.compose.material3.Button
@@ -30,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -137,158 +140,169 @@ fun BookHotelContent(
     state: BookHotelState,
     onEvent: (BookHotelEvent) -> Unit
 ) {
-    Column(
+
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val paddingValue = if(isLandscape) bigSpace else mediumSpace
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(White)
-            .padding(horizontal = mediumSpace),
+            .padding(horizontal = paddingValue),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(bigSpace))
+        item {
+            Spacer(modifier = Modifier.height(bigSpace))
 
-        Text(
-            text = stringResource(R.string.book_hotels),
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-            color = Black
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.medium)
-                .clickable { onEvent(BookHotelEvent.OnDestinationFieldClicked) }
-                .padding(mediumSpace)
-        ) {
-            if (state.destination.isBlank()) {
-                Text(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = Gray)) {
-                            append(stringResource(R.string.where))
-                        }
-                        withStyle(style = SpanStyle(color = Gray)) {
-                            append(stringResource(R.string.city_you_re_visiting))
-                        }
-                    }
-                )
-            } else {
-                Text(
-                    text = state.destination,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Black
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(smallSpace))
-
-        Spacer(modifier = Modifier.height(mediumSpace))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(smallSpace)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(
-                        MaterialTheme.colorScheme.surfaceVariant,
-                        MaterialTheme.shapes.medium
-                    )
-                    .clickable { onEvent(BookHotelEvent.OnDateFieldClicked) }
-                    .padding(smallSpace)
-            ) {
-                Text(
-                    text = stringResource(R.string.when_string),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Gray
-                )
-                Spacer(modifier = Modifier.height(smallSpace))
-                Text(
-                    text = "${state.checkIn.monthValue}/${state.checkIn.dayOfMonth} - ${state.checkOut.monthValue}/${state.checkOut.dayOfMonth}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Black
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(
-                        MaterialTheme.colorScheme.surfaceVariant,
-                        MaterialTheme.shapes.medium
-                    )
-                    .clickable { onEvent(BookHotelEvent.OnTravelersFieldClicked) }
-                    .padding(smallSpace)
-            ) {
-                Text(
-                    text = stringResource(R.string.travelers),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Gray
-                )
-                Spacer(modifier = Modifier.height(smallSpace))
-                Text(
-                    text = "${state.travelers.adults} adults • ${state.travelers.children} children",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Black
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(mediumSpace))
-
-        Button(
-            onClick = { onEvent(BookHotelEvent.OnSearchClicked) },
-            modifier = Modifier.fillMaxWidth(0.5f),
-            colors = ButtonDefaults.buttonColors(containerColor = OrangeColor)
-        ) {
             Text(
-                text = stringResource(R.string.search),
-                color = White,
-                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                text = stringResource(R.string.book_hotels),
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                color = Black
             )
-        }
 
-        Spacer(modifier = Modifier.height(mediumSpace))
+            Spacer(modifier = Modifier.height(24.dp))
 
-        if (state.recentSearches.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.recently_searched),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = Black,
-                modifier = Modifier.align(Alignment.Start)
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.medium)
+                    .clickable { onEvent(BookHotelEvent.OnDestinationFieldClicked) }
+                    .padding(mediumSpace)
+            ) {
+                if (state.destination.isBlank()) {
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(color = Gray)) {
+                                append(stringResource(R.string.where))
+                            }
+                            withStyle(style = SpanStyle(color = Gray)) {
+                                append(stringResource(R.string.city_you_re_visiting))
+                            }
+                        }
+                    )
+                } else {
+                    Text(
+                        text = state.destination,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Black
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(smallSpace))
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(smallSpace)
+            Spacer(modifier = Modifier.height(mediumSpace))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(smallSpace)
             ) {
-                state.recentSearches.asReversed().forEach { search ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = smallSpace)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Hotel,
-                            contentDescription = null,
-                            modifier = Modifier.size(mediumSpace)
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.shapes.medium
                         )
-                        Spacer(modifier = Modifier.width(smallSpace))
-                        Column {
-                            Text(
-                                text = search.searchQuery,
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                                color = Black
+                        .clickable { onEvent(BookHotelEvent.OnDateFieldClicked) }
+                        .padding(smallSpace)
+                ) {
+                    Text(
+                        text = stringResource(R.string.when_string),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Gray
+                    )
+                    Spacer(modifier = Modifier.height(smallSpace))
+                    Text(
+                        text = "${state.checkIn.monthValue}/${state.checkIn.dayOfMonth} - ${state.checkOut.monthValue}/${state.checkOut.dayOfMonth}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Black
+                    )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.shapes.medium
+                        )
+                        .clickable { onEvent(BookHotelEvent.OnTravelersFieldClicked) }
+                        .padding(smallSpace)
+                ) {
+                    Text(
+                        text = stringResource(R.string.travelers),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Gray
+                    )
+                    Spacer(modifier = Modifier.height(smallSpace))
+                    Text(
+                        text = "${state.travelers.adults} adults • ${state.travelers.children} children",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Black
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(mediumSpace))
+
+            Button(
+                onClick = { onEvent(BookHotelEvent.OnSearchClicked) },
+                modifier = Modifier.fillMaxWidth(0.5f),
+                colors = ButtonDefaults.buttonColors(containerColor = OrangeColor)
+            ) {
+                Text(
+                    text = stringResource(R.string.search),
+                    color = White,
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(mediumSpace))
+
+            if (state.recentSearches.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = stringResource(R.string.recently_searched),
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Black
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(smallSpace))
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(smallSpace)
+                ) {
+                    state.recentSearches.asReversed().forEach { search ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = smallSpace)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Hotel,
+                                contentDescription = null,
+                                modifier = Modifier.size(mediumSpace)
                             )
-                            Text(
-                                text = "${search.checkInDate} — ${search.checkOutDate} • ${search.guests} guests • ${search.rooms} room",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Gray
-                            )
+                            Spacer(modifier = Modifier.width(smallSpace))
+                            Column {
+                                Text(
+                                    text = search.searchQuery,
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                                    color = Black
+                                )
+                                Text(
+                                    text = "${search.checkInDate} — ${search.checkOutDate} • ${search.guests} guests • ${search.rooms} room",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Gray
+                                )
+                            }
                         }
                     }
                 }
