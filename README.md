@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="ic_launcher.xml" alt="Logo" width="200" height="200">
+  <img src="https://styles.redditmedia.com/t5_6xu691/styles/communityIcon_lgr0ycdkte0d1.png" alt="Logo" width="200" height="200">
 </p>
 <br />
 <div align="center">
