@@ -58,7 +58,7 @@ data object AddGuideScreenDestination
 @Serializable
 data object SearchCityScreenDestination
 @Serializable
-data object GuideScreenDestination
+data class GuideScreenDestination(val guideId: String)
 
 @Composable
 fun AppNavGraph(
@@ -215,7 +215,9 @@ fun AppNavGraph(
                             popUpTo(AddGuideScreenDestination) { inclusive = true }
                         }
                     },
-                    navigateToGuide = { navController.navigate(GuideScreenDestination) },
+                    navigateToGuide = { guideId ->
+                        navController.navigate(GuideScreenDestination(guideId))
+                    },
                     savedStateHandle = savedStateHandle
                 )
             }
@@ -234,7 +236,8 @@ fun AppNavGraph(
             }
 
             composable<GuideScreenDestination> { backStackEntry ->
-                GuideScreen()
+                val guideId = backStackEntry.arguments?.getString("guideId") ?: error("Guide ID is required")
+                GuideScreen(guideId = guideId)
             }
 //        composable<ThemeScreenDestination> {
 //            ThemeScreen(navigateBack = { navController.popBackStack() })

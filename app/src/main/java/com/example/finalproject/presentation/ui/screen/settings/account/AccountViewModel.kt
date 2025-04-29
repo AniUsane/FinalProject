@@ -10,11 +10,11 @@ import com.example.finalproject.domain.model.profile.User
 import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import com.example.finalproject.domain.repository.profile.ProfileRepository
 import com.example.finalproject.domain.repository.profile.UserRepository
+import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteProfileUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteUserUseCase
 import com.example.finalproject.domain.usecase.profile.UpdateProfileUseCase
 import com.example.finalproject.domain.usecase.profile.UpdateUserUseCase
-import com.example.finalproject.domain.usecase.auth.ValidateEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.firstOrNull
@@ -178,7 +178,7 @@ class AccountViewModel @Inject constructor(
                     profileImageUrl = state.profileImageUrl,
                     bio = profileState.bio ?: "",
                     trips = profileState.trips ,
-                    guides = profileState.guides
+                    guide = profileState.guide
                 )
 
                 launch {

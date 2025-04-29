@@ -32,6 +32,7 @@ import com.example.finalproject.presentation.model.addGuide.GuideUi
 
 @Composable
 fun GuideScreen(
+    guideId: String,
     viewModel: GuideViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsStateWithLifecycle()

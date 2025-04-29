@@ -70,7 +70,6 @@ fun AddGuideScreen(
         when (effect) {
             is AddGuideEffect.NavigateToProfile -> navigateToProfile()
             is AddGuideEffect.NavigateToGuide -> {
-                savedStateHandle["guideId"] = effect.guideId
                 navigateToGuide(effect.guideId)
             }
             is AddGuideEffect.ShowSnackBar -> snackBarHostState.showSnackbar(effect.message)

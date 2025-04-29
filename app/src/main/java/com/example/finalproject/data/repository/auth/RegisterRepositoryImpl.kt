@@ -43,7 +43,7 @@ class RegisterRepositoryImpl @Inject constructor(
                     profileImageUrl = null,
                     bio = "",
                     trips = emptyList(),
-                    guides = emptyList()
+                    guide = emptyList()
                 )
 
                 profileService.createProfile(profileDto)

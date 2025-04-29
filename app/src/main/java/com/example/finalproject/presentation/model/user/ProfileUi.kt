@@ -10,5 +10,5 @@ data class ProfileUi(
     val profileImageUrl: String? = null,
     val bio: String? = null,
     val trips: List<String> = emptyList(),
-    val guides: List<GuideUi> = emptyList()
+    val guide: List<GuideUi> = emptyList()
 )

@@ -66,7 +66,7 @@ class AddGuideViewModel @Inject constructor(
             data = GuideDataUi(
                 title = state.title,
                 description = state.description,
-                imageUrl = imageUrl // ✅ Set uploaded URL
+                imageUrl = imageUrl
             ),
             createdAt = System.currentTimeMillis().toString()
         )

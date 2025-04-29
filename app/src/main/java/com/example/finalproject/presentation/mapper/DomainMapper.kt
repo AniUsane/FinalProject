@@ -27,7 +27,7 @@ fun Profile.toPresentation() = ProfileUi(
     profileImageUrl = profileImageUrl,
     bio = bio,
     trips = trips,
-    guides = guides
+    guide = guide.map { it.toPresentation() }
 )
 
 fun ProfileUi.toDomain() = Profile(
@@ -38,5 +38,5 @@ fun ProfileUi.toDomain() = Profile(
     profileImageUrl = profileImageUrl,
     bio = bio,
     trips = trips,
-    guides = guides
+    guide = guide.map { it.toDomain() }
 )

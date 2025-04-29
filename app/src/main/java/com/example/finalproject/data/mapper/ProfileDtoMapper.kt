@@ -12,7 +12,7 @@ fun ProfileDto.toDomain(): Profile =
         profileImageUrl = profileImageUrl,
         bio = bio,
         trips = trips,
-        guides = guides
+        guide = guide.map { it.toDomain() }
     )
 
 fun Profile.toDto(): ProfileDto =
@@ -24,5 +24,5 @@ fun Profile.toDto(): ProfileDto =
         profileImageUrl = profileImageUrl,
         bio = bio,
         trips = trips,
-        guides = guides
+        guide = guide.map { it.toDto() }
     )

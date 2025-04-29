@@ -61,6 +61,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import com.example.finalproject.R
+import com.example.finalproject.presentation.model.addGuide.GuideDataUi
+import com.example.finalproject.presentation.model.addGuide.GuideUi
 import com.example.finalproject.presentation.model.user.ProfileUi
 import com.example.finalproject.presentation.ui.screen.components.CollectEffect
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
@@ -253,7 +255,7 @@ fun ProfileContent(
                     onClick = onAddTrip
                 )
                 1 -> {
-                    if (profile.guides.isEmpty()) {
+                    if (profile.guide.isEmpty()) {
                         EmptyState(
                             message = stringResource(R.string.you_haven_t_added_any_guides_yet),
                             buttonText = stringResource(R.string.add_a_guide),
@@ -261,10 +263,10 @@ fun ProfileContent(
                         )
                     } else {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            items(profile.guides) { guide ->
+                            items(profile.guide) { guide ->
                                 GuideItem(
-                                    guideName = guide,
-                                    onClick = { onGuideClick(guide) }
+                                    guideName = guide.data.title ?: "Untitled Guide",
+                                    onClick = { onGuideClick(guide.id) }
                                 )
                             }
                         }
@@ -399,7 +401,30 @@ fun ProfileContentPreview() {
         profileImageUrl = "https://via.placeholder.com/150",
         bio = "Explorer | Travel Enthusiast",
         trips = listOf("trip1", "trip2"),
-        guides = listOf("guide1", "guide2")
+        guide = listOf(
+            GuideUi(
+                id = "guide1",
+                userId = "123",
+                location = "Paris",
+                data = GuideDataUi(
+                    title = "Paris Travel Tips",
+                    description = "Best spots in Paris",
+                    imageUrl = "https://via.placeholder.com/150"
+                ),
+                createdAt = "2024-01-01"
+            ),
+            GuideUi(
+                id = "guide2",
+                userId = "123",
+                location = "London",
+                data = GuideDataUi(
+                    title = "London City Guide",
+                    description = "Explore history and pubs",
+                    imageUrl = "https://via.placeholder.com/150"
+                ),
+                createdAt = "2024-02-01"
+            )
+        )
     )
 
     MaterialTheme {

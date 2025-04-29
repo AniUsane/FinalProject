@@ -22,6 +22,7 @@ import com.example.finalproject.utils.ImageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -78,7 +79,19 @@ class ProfileViewModel @Inject constructor(
                                 isLoading = false
                             )
                         }
-                        loadGuides(userId)
+                        val profileDto = result.data
+                        val guideIds = profileDto.guide
+
+                        val fullGuides = guideIds.mapNotNull { id ->
+                            getGuidesUseCase(id).firstOrNull()?.data
+                        }
+
+                        val profileUi = profileDto.toPresentation().copy(
+                            guide = fullGuides.map { it.toPresentation() }
+                        )
+
+                        updateState { copy(profile = profileUi, isLoading = false) }
+
                     }
                     is Resource.Error -> updateState {
                         copy(errorMessage = result.errorMessage, isLoading = false)
@@ -107,12 +120,12 @@ class ProfileViewModel @Inject constructor(
                             )
                         }
                         updateState {
-                            copy(profile = profile?.copy(guides = guides))
+                            copy(profile = profile?.copy(guide = guides))
                         }
                     }
 
                     is Resource.Error -> updateState {
-                        copy(profile = profile?.copy(guides = emptyList()))
+                        copy(profile = profile?.copy(guide = emptyList()))
                     }
 
                     else -> Unit
