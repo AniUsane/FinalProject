@@ -93,7 +93,7 @@ Follow these steps to set up the project locally:
 
   ```bash
   git clone https://github.com/AniUsane/FinalProject
-
+```
 2. **Open the project**
    
 ```
@@ -124,9 +124,6 @@ then click the Run ▶️ button in Android Studio.
 The app should now launch on your device with
 the full authentication flow enabled.
 ```
-
-
-  ---
 
 ## ⚙️ Usage
 
@@ -161,22 +158,9 @@ Open a pull request
 
 ---
 
-## 📄 License
-
-Distributed under the **Unlicense License**. See `LICENSE` for more information.
-
----
-
 ## 📬 Contact
 
 **Ani Usanetashvili**  
 **Nini Toliashvili**
 
 ---
-
-## 🙏 Acknowledgments
-
-- [Jetpack Compose](https://developer.android.com/jetpack/compose)
-- [MockAPI](https://mockapi.io/)
-- [Dagger Hilt](https://dagger.dev/hilt/)
-  
