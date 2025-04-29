@@ -1,27 +1,22 @@
 package com.example.finalproject.presentation.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.finalproject.presentation.ui.screen.auth.login.LoginScreen
-import com.example.finalproject.presentation.ui.screen.bookHotel.BookHotelScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.calendar.ChooseDateScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.citySearch.CitySearchScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.travelers.TravelersScreen
 import com.example.finalproject.presentation.ui.screen.home.Home
-import com.example.finalproject.presentation.ui.screen.profile.ProfileScreen
-import com.example.finalproject.presentation.ui.screen.profile.ProfileScreenCallbacks
 import com.example.finalproject.presentation.ui.screen.registration.RegistrationScreen
 import com.example.finalproject.presentation.ui.screen.settings.PreferencesScreen
-import com.example.finalproject.presentation.ui.screen.settings.SettingsScreen
-import com.example.finalproject.presentation.ui.screen.settings.account.AccountScreen
 import com.example.finalproject.presentation.ui.theme.TransparentColor
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
@@ -41,8 +36,6 @@ data object AccountScreenDestination
 @Serializable
 data object PreferencesScreenDestination
 @Serializable
-data object ThemeScreenDestination
-@Serializable
 data object BookHotelScreenDestination
 @Serializable
 data object CitySearchScreenDestination
@@ -60,24 +53,23 @@ fun AppNavGraph(
     navController: NavHostController,
     startDestination: Any
 ){
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
     Scaffold(
         containerColor = TransparentColor,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             if(currentRoute in listOf(
-                ProfileScreenDestination::class.qualifiedName,
-                HomeScreenDestination::class.qualifiedName,
-                PreferencesScreenDestination::class.qualifiedName,
-                BookHotelScreenDestination::class.qualifiedName
-            )) {
-                BottomNavBar(navController)
+                    ProfileScreenDestination::class.qualifiedName,
+                    HomeScreenDestination::class.qualifiedName,
+                    PreferencesScreenDestination::class.qualifiedName,
+                    BookHotelScreenDestination::class.qualifiedName
+                )) {
+                BottomNavBar()
             }
         }
     ) { padding ->
-
+        Log.d("AppNavGraph", "Current route: $currentRoute")
         NavHost(navController = navController,
             startDestination = when (startDestination) {
                 "home" -> HomeScreenDestination
@@ -105,51 +97,8 @@ fun AppNavGraph(
                 Home()
             }
 
-            composable<ProfileScreenDestination> {
-                ProfileScreen(
-                    callbacks = ProfileScreenCallbacks(
-                        navigateToLogin = {
-                            navController.navigate(LoginScreenDestination) {
-                                popUpTo(ProfileScreenDestination) { inclusive = true }
-                            }
-                        },
-                        showSnackBar = {},
-                        showSettingsDialog = {navController.navigate(SettingsScreenDestination)},
-                        showHelpDialog = {},
-                        showFeedbackDialog = {}
-                    )
-                )
-            }
-
-            composable<SettingsScreenDestination> {
-
-                SettingsScreen(
-                    navigateToAccount = {navController.navigate(AccountScreenDestination)},
-                    navigateToPreferences = {navController.navigate(PreferencesScreenDestination)},
-                    navigateToThemes = {navController.navigate(ThemeScreenDestination)},
-                    navigateBack = {navController.popBackStack()}
-                )
-            }
-
-            composable<AccountScreenDestination> {
-                AccountScreen(
-                    navigateBack = { navController.popBackStack() },
-                    navigateToLogin = { navController.navigate(LoginScreenDestination)}
-                )
-            }
-
             composable<PreferencesScreenDestination> {
                 PreferencesScreen(navigateBack = { navController.popBackStack() })
-            }
-
-            composable<BookHotelScreenDestination> {
-                val savedStateHandle = it.savedStateHandle
-                BookHotelScreen(
-                    navigateToCitySearch = { navController.navigate(CitySearchScreenDestination) },
-                    savedStateHandle = savedStateHandle,
-                    navigateToChooseDate = { navController.navigate(ChooseDateScreenDestination)},
-                    navigateToTravelers = {navController.navigate(TravelersScreenDestination)}
-                )
             }
 
             composable<CitySearchScreenDestination> {
@@ -195,11 +144,6 @@ fun AppNavGraph(
                     }
                 )
             }
-
-//        composable<ThemeScreenDestination> {
-//            ThemeScreen(navigateBack = { navController.popBackStack() })
-//        }
         }
     }
-
 }

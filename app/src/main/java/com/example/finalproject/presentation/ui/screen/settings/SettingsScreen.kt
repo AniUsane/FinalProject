@@ -29,7 +29,6 @@ import com.example.finalproject.presentation.ui.theme.White
 fun SettingsScreen(
     navigateToAccount: () -> Unit,
     navigateToPreferences: () -> Unit,
-    navigateToThemes: () -> Unit,
     navigateBack: () -> Unit
 ) {
 
@@ -56,7 +55,6 @@ fun SettingsScreen(
 
         SettingsItem(stringResource(R.string.account), onClick = navigateToAccount)
         SettingsItem(stringResource(R.string.user_preferences), onClick = navigateToPreferences)
-        SettingsItem(stringResource(R.string.theme), onClick = navigateToThemes)
 
         Spacer(modifier = Modifier.weight(1f))
     }
@@ -69,7 +67,6 @@ fun SettingsScreenPreview(){
     SettingsScreen(
         navigateToAccount = {},
         navigateToPreferences = {},
-        navigateToThemes = {},
         navigateBack = {}
     )
 }
