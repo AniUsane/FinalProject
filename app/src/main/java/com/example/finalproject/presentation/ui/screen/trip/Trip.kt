@@ -60,7 +60,7 @@ fun TripScreen(onNavigateBack: () -> Unit) {
         Column {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Button(
-                    onClick = {},
+                    onClick = {onNavigateBack()},
                     modifier = Modifier
                         .padding(top = 15.dp, start = 10.dp)
                         .size(48.dp),

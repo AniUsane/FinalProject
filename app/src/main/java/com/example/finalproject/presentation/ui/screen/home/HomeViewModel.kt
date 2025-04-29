@@ -1,4 +1,4 @@
-package com.example.tbc_final.ui.screen.home
+package com.example.finalproject.presentation.ui.screen.home
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -99,6 +99,8 @@ class HomeViewModel @Inject constructor(
                         _popularDestinationState.value =
                             PopularDestinationState.Error(message = resource.message)
                     }
+
+
                 }
 
             }

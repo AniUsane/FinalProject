@@ -22,6 +22,7 @@ import com.example.finalproject.presentation.ui.screen.registration.Registration
 import com.example.finalproject.presentation.ui.screen.settings.PreferencesScreen
 import com.example.finalproject.presentation.ui.screen.settings.SettingsScreen
 import com.example.finalproject.presentation.ui.screen.settings.account.AccountScreen
+import com.example.finalproject.presentation.ui.screen.trip.TripScreen
 import com.example.finalproject.presentation.ui.theme.TransparentColor
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
@@ -195,6 +196,8 @@ fun AppNavGraph(
                     }
                 )
             }
+
+            composable<AddTripScreenDestination> { TripScreen { navController.popBackStack() } }
 
 //        composable<ThemeScreenDestination> {
 //            ThemeScreen(navigateBack = { navController.popBackStack() })

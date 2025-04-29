@@ -28,7 +28,6 @@ import com.example.finalproject.presentation.ui.screen.home.state.PopularDestina
 import com.example.finalproject.presentation.ui.screen.home.state.UserGuideState
 import com.example.finalproject.presentation.ui.screen.home.state.WeekendTripState
 import com.example.finalproject.presentation.ui.theme.White
-import com.example.tbc_final.ui.screen.home.HomeViewModel
 
 @Composable
 fun Home(
@@ -61,13 +60,13 @@ fun Home(
         val weekendTripState by viewModel.weekendTripState.collectAsStateWithLifecycle()
         val popularDestinationState by viewModel.popularDestinationState.collectAsStateWithLifecycle()
         Log.d("Home", "State: $userGuideState")
-        when (userGuideState) {
+        when (val state = userGuideState) {
             is UserGuideState.Success -> {
                 Log.d("Home", "State: $userGuideState")
                 LazyRow(
                     modifier = Modifier.padding(start = 3.dp, end = 3.dp)
                 ) {
-                    items((userGuideState as UserGuideState.Success).usersGuides) { userGuide ->
+                    items(state.usersGuides) { userGuide ->
                         UserGuideItem(userGuide.toPresentation())
                     }
                 }
@@ -81,19 +80,18 @@ fun Home(
 
             }
 
-
             UserGuideState.Idle -> {}
         }
 
         Spacer(modifier = Modifier.height(50.dp))
         Text("Weekend trips", fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp), fontSize = 25.sp)
 
-        when(weekendTripState) {
+        when(val state = weekendTripState) {
             is WeekendTripState.Success -> {
                 LazyRow(
                     modifier = Modifier.padding(start = 3.dp, end = 3.dp)
                 ) {
-                    items((weekendTripState as WeekendTripState.Success).weekendTrips) { weekendTrip ->
+                    items(state.weekendTrips) { weekendTrip ->
                         TripItem(weekendTrip)
                     }
                 }
@@ -114,12 +112,12 @@ fun Home(
         Spacer(modifier = Modifier.height(35.dp))
         Text("Popular destinations", fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp), fontSize = 25.sp)
 
-        when(popularDestinationState) {
+        when(val state = popularDestinationState) {
             is PopularDestinationState.Success -> {
                 LazyRow(
                     modifier = Modifier.padding(start = 3.dp, end = 3.dp)
                 ) {
-                    items((popularDestinationState as PopularDestinationState.Success).popularDestinations) { popularDestination ->
+                    items(state.popularDestinations) { popularDestination ->
                         TripItem(popularDestination)
                     }
                 }
