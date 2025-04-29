@@ -27,7 +27,7 @@ class CitySearchRepositoryImpl @Inject constructor(
             keyword = query
         )
 
-        return response.data.map { it.toDomain() }
+        return response.data?.map { it.toDomain() } ?: emptyList()
     }
 
     private suspend fun refreshToken() {

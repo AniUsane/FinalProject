@@ -4,6 +4,7 @@ import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.HandleResponse
 import com.example.finalproject.common.utils.ApiHelper
 import com.example.finalproject.data.service.AuthService
+import com.example.finalproject.data.service.GuideService
 import com.example.finalproject.data.service.ProfileService
 import com.example.finalproject.data.service.UserService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -65,6 +66,12 @@ object AppModule {
     @Singleton
     fun provideApiHelper(): ApiHelper {
         return ApiHelper
+    }
+
+    @Singleton
+    @Provides
+    fun provideGuideService(@Named("RetrofitClient") retrofit: Retrofit): GuideService {
+        return retrofit.create(GuideService::class.java)
     }
 
 }

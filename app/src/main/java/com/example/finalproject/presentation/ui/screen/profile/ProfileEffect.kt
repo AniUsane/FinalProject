@@ -7,4 +7,5 @@ sealed class ProfileEffect {
     data object ShowSettingsDialog : ProfileEffect()
     data object ShowHelpDialog : ProfileEffect()
     data object ShowFeedbackDialog : ProfileEffect()
+    data object NavigateToAddGuide: ProfileEffect()
 }

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CitySearchResponseDto(
-    val data: List<DataObjectDto>
+    val data: List<DataObjectDto>? = null
 )
 
 @Serializable

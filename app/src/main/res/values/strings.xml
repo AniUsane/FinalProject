@@ -55,5 +55,8 @@
     <string name="done">Done</string>
     <string name="trips">Trips</string>
     <string name="guides">Guides</string>
+    <string name="guide_placeholder">e.g., Paris, Berlin, Tokyo</string>
+    <string name="write_a_travel_guide">Write a travel guide</string>
+    <string name="share_tips_and_recommendations_for_your_favorite_destinations">Share tips and recommendations for your favorite destinations</string>
 
 </resources>

@@ -51,6 +51,9 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.FeedbackClicked -> {
                 viewModelScope.launch { emitEffect(ProfileEffect.ShowFeedbackDialog) }
             }
+            is ProfileEvent.AddGuide -> {
+                viewModelScope.launch { emitEffect(ProfileEffect.NavigateToAddGuide) }
+            }
 
             else -> Unit
         }

@@ -5,5 +5,6 @@ data class ProfileScreenCallbacks(
     val showSettingsDialog: () -> Unit = {},
     val showHelpDialog: () -> Unit = {},
     val showFeedbackDialog: () -> Unit = {},
-    val showSnackBar: (String) -> Unit = {}
+    val showSnackBar: (String) -> Unit = {},
+    val navigateToAddGuide: () -> Unit = {}
 )

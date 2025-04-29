@@ -53,7 +53,7 @@ data object TravelersScreenDestination
 @Serializable
 data object AddGuideScreenDestination
 @Serializable
-data object AddTripScreenDestination
+data object SearchCityScreenDestination
 
 @Composable
 fun AppNavGraph(
@@ -116,7 +116,8 @@ fun AppNavGraph(
                         showSnackBar = {},
                         showSettingsDialog = {navController.navigate(SettingsScreenDestination)},
                         showHelpDialog = {},
-                        showFeedbackDialog = {}
+                        showFeedbackDialog = {},
+                        navigateToAddGuide = {navController.navigate(AddGuideScreenDestination)}
                     )
                 )
             }
@@ -195,6 +196,8 @@ fun AppNavGraph(
                     }
                 )
             }
+
+
 
 //        composable<ThemeScreenDestination> {
 //            ThemeScreen(navigateBack = { navController.popBackStack() })

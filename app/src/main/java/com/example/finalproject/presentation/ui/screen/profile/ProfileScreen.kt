@@ -99,6 +99,7 @@ fun ProfileScreen(
             is ProfileEffect.ShowSettingsDialog -> callbacks.showSettingsDialog()
             is ProfileEffect.ShowHelpDialog -> callbacks.showHelpDialog()
             is ProfileEffect.ShowFeedbackDialog -> callbacks.showFeedbackDialog()
+            is ProfileEffect.NavigateToAddGuide -> callbacks.navigateToAddGuide()
         }
     }
 
@@ -120,7 +121,7 @@ fun ProfileScreen(
                         "Feedback & support" -> viewModel.obtainEvent(ProfileEvent.FeedbackClicked)
                     }
                 },
-                onAddTrip = { viewModel.obtainEvent(ProfileEvent.AddTrip) },      // ✅ new
+                onAddTrip = { viewModel.obtainEvent(ProfileEvent.AddTrip) },
                 onAddGuide = { viewModel.obtainEvent(ProfileEvent.AddGuide) }
             )
         }

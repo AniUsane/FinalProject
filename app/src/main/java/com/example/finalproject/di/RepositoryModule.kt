@@ -1,19 +1,22 @@
 package com.example.finalproject.di
 
 import com.example.finalproject.common.HandleResponse
-import com.example.finalproject.data.repository.profile.ProfileRepositoryImpl
-import com.example.finalproject.data.repository.bookHotel.RecentSearchRepositoryImpl
+import com.example.finalproject.data.repository.GuideRepositoryImpl
 import com.example.finalproject.data.repository.RegisterRepositoryImpl
-import com.example.finalproject.data.repository.profile.UserRepositoryImpl
 import com.example.finalproject.data.repository.auth.LoginRepositoryImpl
+import com.example.finalproject.data.repository.bookHotel.RecentSearchRepositoryImpl
+import com.example.finalproject.data.repository.profile.ProfileRepositoryImpl
+import com.example.finalproject.data.repository.profile.UserRepositoryImpl
 import com.example.finalproject.data.service.AuthService
+import com.example.finalproject.data.service.GuideService
 import com.example.finalproject.data.service.ImgBBService
 import com.example.finalproject.data.service.ProfileService
 import com.example.finalproject.data.service.UserService
+import com.example.finalproject.domain.repository.GuideRepository
 import com.example.finalproject.domain.repository.auth.LoginRepository
-import com.example.finalproject.domain.repository.profile.ProfileRepository
-import com.example.finalproject.domain.repository.bookHotel.RecentSearchRepository
 import com.example.finalproject.domain.repository.auth.RegisterRepository
+import com.example.finalproject.domain.repository.bookHotel.RecentSearchRepository
+import com.example.finalproject.domain.repository.profile.ProfileRepository
 import com.example.finalproject.domain.repository.profile.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -53,5 +56,12 @@ class RepositoryModule {
     fun provideRecentSearchRepository(authService: UserService, handleResponse: HandleResponse
     ): RecentSearchRepository {
         return RecentSearchRepositoryImpl(authService, handleResponse)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGuideRepository(service: GuideService, handleResponse: HandleResponse):
+            GuideRepository{
+        return GuideRepositoryImpl(service, handleResponse)
     }
 }
