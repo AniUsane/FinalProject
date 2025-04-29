@@ -8,6 +8,7 @@ import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.Resource
 import com.example.finalproject.data.repository.dataStore.PreferenceKeys
 import com.example.finalproject.domain.repository.auth.DataStoreRepository
+import com.example.finalproject.domain.usecase.GetGuideByIdUseCase
 import com.example.finalproject.domain.usecase.GetGuidesUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteProfileUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteUserUseCase
@@ -37,7 +38,8 @@ class ProfileViewModel @Inject constructor(
     private val deleteUser: DeleteUserUseCase,
     private val dataStore: DataStoreRepository,
     private val uploadImageUseCase: UploadImageUseCase,
-    private val getGuidesUseCase: GetGuidesUseCase
+    private val getGuidesUseCase: GetGuidesUseCase,
+    private val getGuideByIdUseCase: GetGuideByIdUseCase
 ): BaseViewModel<ProfileState, ProfileEvent, ProfileEffect>(ProfileState()) {
     override fun obtainEvent(event: ProfileEvent) {
         when(event){
@@ -68,39 +70,40 @@ class ProfileViewModel @Inject constructor(
     private fun loadProfile() {
         viewModelScope.launch {
             updateState { copy(isLoading = true) }
+
             val userId = dataStore.readString(PreferenceKeys.USER_ID_KEY).first()
 
             profileUseCase(userId).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        updateState {
-                            copy(
-                                profile = result.data.toPresentation(),
-                                isLoading = false
-                            )
-                        }
-                        val profileDto = result.data
-                        val guideIds = profileDto.guide
+                        val profile = result.data
+                        val guideIds = profile.guide
 
                         val fullGuides = guideIds.mapNotNull { id ->
-                            getGuidesUseCase(id).firstOrNull()?.data
+                            val guideResult = getGuideByIdUseCase(id).firstOrNull()
+                            if (guideResult is Resource.Success) {
+                                guideResult.data
+                            } else null
                         }
 
-                        val profileUi = profileDto.toPresentation().copy(
+                        val profileUi = profile.toPresentation().copy(
                             guide = fullGuides.map { it.toPresentation() }
                         )
 
                         updateState { copy(profile = profileUi, isLoading = false) }
-
                     }
+
                     is Resource.Error -> updateState {
                         copy(errorMessage = result.errorMessage, isLoading = false)
                     }
+
                     is Resource.Loading -> updateState { copy(isLoading = result.loading) }
                 }
             }
         }
     }
+
+
 
     private fun loadGuides(userId: String) {
         viewModelScope.launch {

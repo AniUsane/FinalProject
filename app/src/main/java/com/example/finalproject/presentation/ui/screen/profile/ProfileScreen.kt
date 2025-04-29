@@ -19,8 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -61,9 +59,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.rememberAsyncImagePainter
 import com.example.finalproject.R
-import com.example.finalproject.presentation.model.addGuide.GuideDataUi
-import com.example.finalproject.presentation.model.addGuide.GuideUi
-import com.example.finalproject.presentation.model.user.ProfileUi
+import com.example.finalproject.presentation.model.ProfileUi
 import com.example.finalproject.presentation.ui.screen.components.CollectEffect
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.mediumSpace
 import com.example.finalproject.presentation.ui.screen.components.Dimensions.profileImage
@@ -103,7 +99,6 @@ fun ProfileScreen(
             is ProfileEffect.ShowSettingsDialog -> callbacks.showSettingsDialog()
             is ProfileEffect.ShowHelpDialog -> callbacks.showHelpDialog()
             is ProfileEffect.ShowFeedbackDialog -> callbacks.showFeedbackDialog()
-            is ProfileEffect.NavigateToAddGuide -> callbacks.navigateToAddGuide()
         }
     }
 
@@ -125,9 +120,8 @@ fun ProfileScreen(
                         "Feedback & support" -> viewModel.obtainEvent(ProfileEvent.FeedbackClicked)
                     }
                 },
-                onAddTrip = { viewModel.obtainEvent(ProfileEvent.AddTrip) },
-                onAddGuide = { viewModel.obtainEvent(ProfileEvent.AddGuide) },
-                onGuideClick = callbacks.onGuideClick
+                onAddTrip = { viewModel.obtainEvent(ProfileEvent.AddTrip) },      // ✅ new
+                onAddGuide = { viewModel.obtainEvent(ProfileEvent.AddGuide) }
             )
         }
 
@@ -154,12 +148,11 @@ fun ProfileContent(
     onDeleteAccount: () -> Unit,
     onMenuOptionSelected: (String) -> Unit,
     onAddTrip: () -> Unit,
-    onAddGuide: () -> Unit,
-    onGuideClick: (String) -> Unit
+    onAddGuide: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabTitles = listOf(stringResource(R.string.trips), stringResource(R.string.guides))
+    val tabTitles = listOf("Trips", "Guides")
     var sortDialogVisible by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -254,30 +247,17 @@ fun ProfileContent(
                     buttonText = stringResource(R.string.start_planning_a_trip),
                     onClick = onAddTrip
                 )
-                1 -> {
-                    if (profile.guide.isEmpty()) {
-                        EmptyState(
-                            message = stringResource(R.string.you_haven_t_added_any_guides_yet),
-                            buttonText = stringResource(R.string.add_a_guide),
-                            onClick = onAddGuide
-                        )
-                    } else {
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            items(profile.guide) { guide ->
-                                GuideItem(
-                                    guideName = guide.data.title ?: "Untitled Guide",
-                                    onClick = { onGuideClick(guide.id) }
-                                )
-                            }
-                        }
-                    }
-                }
+                1 -> EmptyState(
+                    message = stringResource(R.string.you_haven_t_added_any_guides_yet),
+                    buttonText = stringResource(R.string.add_a_guide),
+                    onClick = onAddGuide
+                )
             }
         }
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Spacer(modifier = Modifier.height(70.dp))
+                Spacer(modifier = Modifier.height(70.dp))
                 Box(contentAlignment = Alignment.BottomEnd) {
                     Image(
                         painter = rememberAsyncImagePainter(
@@ -303,7 +283,7 @@ fun ProfileContent(
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = stringResource(R.string.edit_image),
-                            modifier = Modifier.size(mediumSpace),
+                            modifier = Modifier.size(14.dp),
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
@@ -401,30 +381,7 @@ fun ProfileContentPreview() {
         profileImageUrl = "https://via.placeholder.com/150",
         bio = "Explorer | Travel Enthusiast",
         trips = listOf("trip1", "trip2"),
-        guide = listOf(
-            GuideUi(
-                id = "guide1",
-                userId = "123",
-                location = "Paris",
-                data = GuideDataUi(
-                    title = "Paris Travel Tips",
-                    description = "Best spots in Paris",
-                    imageUrl = "https://via.placeholder.com/150"
-                ),
-                createdAt = "2024-01-01"
-            ),
-            GuideUi(
-                id = "guide2",
-                userId = "123",
-                location = "London",
-                data = GuideDataUi(
-                    title = "London City Guide",
-                    description = "Explore history and pubs",
-                    imageUrl = "https://via.placeholder.com/150"
-                ),
-                createdAt = "2024-02-01"
-            )
-        )
+        guides = listOf("guide1", "guide2")
     )
 
     MaterialTheme {
@@ -435,8 +392,7 @@ fun ProfileContentPreview() {
             onDeleteAccount = {},
             onMenuOptionSelected = {},
             onAddTrip = {},
-            onAddGuide = {},
-            onGuideClick = {}
+            onAddGuide = {}
         )
     }
 }
