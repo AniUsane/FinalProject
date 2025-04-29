@@ -9,3 +9,4 @@ object Routes {
     const val ACCOUNT = "account"
     const val PREFERENCES = "preferences"
 }
+
