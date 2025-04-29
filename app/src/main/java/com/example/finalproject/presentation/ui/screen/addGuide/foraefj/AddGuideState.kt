@@ -1,9 +1,13 @@
 package com.example.finalproject.presentation.ui.screen.addGuide.foraefj
 
-import com.example.finalproject.domain.model.bookHotel.City
+import android.net.Uri
 
 data class AddGuideState(
-    val query: String = "",
-    val selectedCity: City? = null,
-    val isCreatingGuide: Boolean = false
+    val title: String = "",
+    val description: String = "",
+    val city: String = "",
+    val imageUri: Uri? = null,
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
+    val userImages: List<Uri> = emptyList()
 )

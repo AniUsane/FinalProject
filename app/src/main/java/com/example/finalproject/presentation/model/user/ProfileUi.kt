@@ -1,5 +1,7 @@
 package com.example.finalproject.presentation.model.user
 
+import com.example.finalproject.presentation.model.addGuide.GuideUi
+
 data class ProfileUi(
     val id: String,
     val userId: String,
@@ -8,5 +10,5 @@ data class ProfileUi(
     val profileImageUrl: String? = null,
     val bio: String? = null,
     val trips: List<String> = emptyList(),
-    val guides: List<String> = emptyList()
+    val guides: List<GuideUi> = emptyList()
 )

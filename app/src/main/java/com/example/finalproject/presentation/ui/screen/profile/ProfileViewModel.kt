@@ -8,6 +8,7 @@ import com.example.finalproject.BuildConfig
 import com.example.finalproject.common.Resource
 import com.example.finalproject.data.repository.dataStore.PreferenceKeys
 import com.example.finalproject.domain.repository.auth.DataStoreRepository
+import com.example.finalproject.domain.usecase.GetGuidesUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteProfileUseCase
 import com.example.finalproject.domain.usecase.profile.DeleteUserUseCase
 import com.example.finalproject.domain.usecase.profile.ProfileUseCase
@@ -15,9 +16,12 @@ import com.example.finalproject.domain.usecase.profile.UpdateProfileUseCase
 import com.example.finalproject.domain.usecase.profile.UploadImageUseCase
 import com.example.finalproject.presentation.mapper.toDomain
 import com.example.finalproject.presentation.mapper.toPresentation
+import com.example.finalproject.presentation.model.addGuide.GuideDataUi
+import com.example.finalproject.presentation.model.addGuide.GuideUi
 import com.example.finalproject.utils.ImageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,7 +35,8 @@ class ProfileViewModel @Inject constructor(
     private val deleteProfile: DeleteProfileUseCase,
     private val deleteUser: DeleteUserUseCase,
     private val dataStore: DataStoreRepository,
-    private val uploadImageUseCase: UploadImageUseCase
+    private val uploadImageUseCase: UploadImageUseCase,
+    private val getGuidesUseCase: GetGuidesUseCase
 ): BaseViewModel<ProfileState, ProfileEvent, ProfileEffect>(ProfileState()) {
     override fun obtainEvent(event: ProfileEvent) {
         when(event){
@@ -61,21 +66,56 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadProfile() {
         viewModelScope.launch {
-            dataStore.readString(PreferenceKeys.USER_ID_KEY).collect { userId ->
-                if (userId.isNotBlank()) {
-                    profileUseCase(userId).collect { result ->
-                        when (result) {
-                            is Resource.Loading -> updateState { copy(isLoading = result.loading) }
-                            is Resource.Success -> updateState {
-                                copy(profile = result.data.toPresentation(), isLoading = false)
-                            }
-                            is Resource.Error -> updateState {
-                                copy(errorMessage = result.errorMessage, isLoading = false)
-                            }
+            updateState { copy(isLoading = true) }
+            val userId = dataStore.readString(PreferenceKeys.USER_ID_KEY).first()
+
+            profileUseCase(userId).collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        updateState {
+                            copy(
+                                profile = result.data.toPresentation(),
+                                isLoading = false
+                            )
+                        }
+                        loadGuides(userId)
+                    }
+                    is Resource.Error -> updateState {
+                        copy(errorMessage = result.errorMessage, isLoading = false)
+                    }
+                    is Resource.Loading -> updateState { copy(isLoading = result.loading) }
+                }
+            }
+        }
+    }
+
+    private fun loadGuides(userId: String) {
+        viewModelScope.launch {
+            getGuidesUseCase(userId).collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        val guides = result.data.map { guide ->
+                            GuideUi(
+                                id = guide.id,
+                                userId = guide.userId,
+                                location = guide.location,
+                                data = GuideDataUi(
+                                    imageUrl = guide.data.imageUrl,
+                                    description = guide.data.description
+                                ),
+                                createdAt = guide.createdAt
+                            )
+                        }
+                        updateState {
+                            copy(profile = profile?.copy(guides = guides))
                         }
                     }
-                } else {
-                    updateState { copy(errorMessage = "Missing userId in DataStore") }
+
+                    is Resource.Error -> updateState {
+                        copy(profile = profile?.copy(guides = emptyList()))
+                    }
+
+                    else -> Unit
                 }
             }
         }
@@ -158,4 +198,5 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+
 }

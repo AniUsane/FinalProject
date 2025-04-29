@@ -1,5 +1,7 @@
 package com.example.finalproject.domain.model.profile
 
+import com.example.finalproject.domain.model.addGuide.Guide
+
 data class Profile(
     val id: String,
     val userId: String,
@@ -8,5 +10,5 @@ data class Profile(
     val profileImageUrl: String? = null,
     val bio: String? = null,
     val trips: List<String> = emptyList(),
-    val guides: List<String> = emptyList()
+    val guides: List<Guide> = emptyList()
 )

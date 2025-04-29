@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -122,7 +124,8 @@ fun ProfileScreen(
                     }
                 },
                 onAddTrip = { viewModel.obtainEvent(ProfileEvent.AddTrip) },
-                onAddGuide = { viewModel.obtainEvent(ProfileEvent.AddGuide) }
+                onAddGuide = { viewModel.obtainEvent(ProfileEvent.AddGuide) },
+                onGuideClick = callbacks.onGuideClick
             )
         }
 
@@ -149,7 +152,8 @@ fun ProfileContent(
     onDeleteAccount: () -> Unit,
     onMenuOptionSelected: (String) -> Unit,
     onAddTrip: () -> Unit,
-    onAddGuide: () -> Unit
+    onAddGuide: () -> Unit,
+    onGuideClick: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -248,11 +252,24 @@ fun ProfileContent(
                     buttonText = stringResource(R.string.start_planning_a_trip),
                     onClick = onAddTrip
                 )
-                1 -> EmptyState(
-                    message = stringResource(R.string.you_haven_t_added_any_guides_yet),
-                    buttonText = stringResource(R.string.add_a_guide),
-                    onClick = onAddGuide
-                )
+                1 -> {
+                    if (profile.guides.isEmpty()) {
+                        EmptyState(
+                            message = stringResource(R.string.you_haven_t_added_any_guides_yet),
+                            buttonText = stringResource(R.string.add_a_guide),
+                            onClick = onAddGuide
+                        )
+                    } else {
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
+                            items(profile.guides) { guide ->
+                                GuideItem(
+                                    guideName = guide,
+                                    onClick = { onGuideClick(guide) }
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -393,7 +410,8 @@ fun ProfileContentPreview() {
             onDeleteAccount = {},
             onMenuOptionSelected = {},
             onAddTrip = {},
-            onAddGuide = {}
+            onAddGuide = {},
+            onGuideClick = {}
         )
     }
 }

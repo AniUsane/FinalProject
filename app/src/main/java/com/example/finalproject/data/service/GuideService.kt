@@ -19,4 +19,6 @@ interface GuideService {
     @PUT("guides/{id}")
     suspend fun updateGuide(@Path("id") id: String, @Body guideDto: GuideDto): Response<GuideDto>
 
+    @GET("guides/{id}")
+    suspend fun getGuideById(@Path("id") id: String): Response<GuideDto>
 }

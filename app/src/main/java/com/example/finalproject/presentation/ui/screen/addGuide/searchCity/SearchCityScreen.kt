@@ -20,6 +20,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +28,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
 import com.example.finalproject.R
 import com.example.finalproject.domain.model.bookHotel.City
 import com.example.finalproject.presentation.ui.screen.components.CollectEffect
@@ -38,43 +38,27 @@ import com.example.finalproject.presentation.ui.screen.components.Dimensions.sma
 @Composable
 fun SearchCityScreen(
     navigateBack: () -> Unit,
-    onCitySelected: (CityNavigationModel) -> Unit
+    onCitySelected: (City) -> Unit,
+    viewModel: SearchCityViewModel = hiltViewModel()
 ) {
-    val viewModel: SearchCityViewModel = hiltViewModel()
-    val state = viewModel.viewState.collectAsState().value
+    val state by viewModel.viewState.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
 
     CollectEffect(flow = viewModel.effects) { effect ->
-        when (effect) {
-            is SearchCityEffect.GuideCreatedSuccessfully -> {
-            }
-            is SearchCityEffect.ShowSnackBar -> {
-                snackBarHostState.showSnackbar(effect.message)
-            }
+        if (effect is SearchCityEffect.ShowSnackBar) {
+            snackBarHostState.showSnackbar(effect.message)
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        SearchCityContent(
-            state = state,
-            onQueryChanged = { viewModel.obtainEvent(SearchCityEvent.OnQueryChanged(it)) },
-            onCitySelected = { city ->
-                val cityResult = CityNavigationModel(
-                    id = city.id,
-                    name = city.name,
-                    countryName = city.countryName,
-                    type = city.type
-                )
-                onCitySelected(cityResult) // ✅ call the lambda
-            },
-            navigateBack = navigateBack
-        )
-
-        SnackbarHost(
-            hostState = snackBarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
+    SearchCityContent(
+        state = state,
+        onQueryChanged = { viewModel.obtainEvent(SearchCityEvent.OnQueryChanged(it)) },
+        onCitySelected = { city ->
+            onCitySelected(city)
+        },
+        snackBarHostState = snackBarHostState,
+        navigateBack = navigateBack
+    )
 }
 
 @Composable
@@ -82,6 +66,7 @@ fun SearchCityContent(
     state: SearchCityState,
     onQueryChanged: (String) -> Unit,
     onCitySelected: (City) -> Unit,
+    snackBarHostState: SnackbarHostState,
     navigateBack: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -91,15 +76,15 @@ fun SearchCityContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = paddingValue).padding(top = bigSpace)
+            .padding(horizontal = paddingValue)
+            .padding(top = bigSpace)
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-
             item {
                 OutlinedTextField(
                     value = state.query,
                     onValueChange = { onQueryChanged(it) },
-                    placeholder = { Text(text = "Search destination...") },
+                    placeholder = { Text("Search destination...") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = mediumSpace),
@@ -133,12 +118,9 @@ fun SearchCityContent(
                         .padding(vertical = smallSpace)
                 ) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column(
-                            modifier = Modifier.weight(1f)
-                        ) {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = city.name,
                                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
@@ -163,5 +145,10 @@ fun SearchCityContent(
                 }
             }
         }
+
+        SnackbarHost(
+            hostState = snackBarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }

@@ -8,4 +8,5 @@ interface GuideRepository {
     suspend fun createGuide(guide: Guide): Flow<Resource<Guide>>
     suspend fun getGuide(userId: String): Flow<Resource<List<Guide>>>
     suspend fun updateGuide(guide: Guide): Flow<Resource<Guide>>
+    suspend fun getGuideById(id: String): Flow<Resource<Guide>>
 }

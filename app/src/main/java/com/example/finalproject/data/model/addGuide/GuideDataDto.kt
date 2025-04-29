@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class GuideDataDto(
     val title: String? = null,
     val description: String? = null,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val userImages: List<String>? = null
 )

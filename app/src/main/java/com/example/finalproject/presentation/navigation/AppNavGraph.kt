@@ -10,6 +10,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.finalproject.presentation.ui.screen.addGuide.foraefj.AddGuideScreen
+import com.example.finalproject.presentation.ui.screen.addGuide.guideScreen.GuideScreen
+import com.example.finalproject.presentation.ui.screen.addGuide.searchCity.SearchCityScreen
 import com.example.finalproject.presentation.ui.screen.auth.login.LoginScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.BookHotelScreen
 import com.example.finalproject.presentation.ui.screen.bookHotel.calendar.ChooseDateScreen
@@ -54,6 +57,8 @@ data object TravelersScreenDestination
 data object AddGuideScreenDestination
 @Serializable
 data object SearchCityScreenDestination
+@Serializable
+data object GuideScreenDestination
 
 @Composable
 fun AppNavGraph(
@@ -117,7 +122,8 @@ fun AppNavGraph(
                         showSettingsDialog = {navController.navigate(SettingsScreenDestination)},
                         showHelpDialog = {},
                         showFeedbackDialog = {},
-                        navigateToAddGuide = {navController.navigate(AddGuideScreenDestination)}
+                        navigateToAddGuide = {navController.navigate(AddGuideScreenDestination)},
+                        onGuideClick = { navController.navigate(GuideScreenDestination)}
                     )
                 )
             }
@@ -197,8 +203,39 @@ fun AppNavGraph(
                 )
             }
 
+            composable<AddGuideScreenDestination> {
+                val savedStateHandle = it.savedStateHandle
 
+                AddGuideScreen(
+                    navigateToCitySearch = {
+                        navController.navigate(SearchCityScreenDestination)
+                    },
+                    navigateToProfile = {
+                        navController.navigate(ProfileScreenDestination) {
+                            popUpTo(AddGuideScreenDestination) { inclusive = true }
+                        }
+                    },
+                    navigateToGuide = { navController.navigate(GuideScreenDestination) },
+                    savedStateHandle = savedStateHandle
+                )
+            }
 
+            composable<SearchCityScreenDestination> {
+                SearchCityScreen(
+                    onCitySelected = { city ->
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("city_name", city.name)
+
+                        navController.popBackStack()
+                    },
+                    navigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable<GuideScreenDestination> { backStackEntry ->
+                GuideScreen()
+            }
 //        composable<ThemeScreenDestination> {
 //            ThemeScreen(navigateBack = { navController.popBackStack() })
 //        }

@@ -76,6 +76,10 @@ android {
                 buildConfigField("String", "AMADEUS_API_SECRET",
                     localProperties.getProperty("AMADEUS_API_SECRET")
                 )
+                buildConfigField("String", "UNSPLASH_ACCESS_KEY",
+                    localProperties.getProperty("UNSPLASH_ACCESS_KEY"))
+                buildConfigField("String", "BASE_URL_UNSPLASH",
+                    "\"https://api.unsplash.com/\"")
             }
             release {
                 buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
