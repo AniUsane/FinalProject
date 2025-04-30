@@ -37,7 +37,8 @@ fun TopImageCard(
     contentDescription: String,
     title: String,
     buttonText: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -85,7 +86,7 @@ fun TopImageCard(
                             .padding(bottom = 10.dp)
                     )
                     Button(
-                        onClick = {},
+                        onClick = {onClick()},
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Orange, // background
                             contentColor = Color.White
@@ -108,10 +109,5 @@ fun TopImageCard(
 @Preview
 @Composable
 fun TopPreview() {
-    TopImageCard(
-        painter = painterResource(R.drawable.img),
-        contentDescription = "Card Image",
-        title = "Plan your next adventure",
-        buttonText = "Create new trip plan"
-    )
+
 }

@@ -22,8 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.example.finalproject.R
 import com.example.finalproject.presentation.mapper.toPresentation
+import com.example.finalproject.presentation.navigation.AddTripScreenDestination
+import com.example.finalproject.presentation.navigation.UserGuideDetailsDestination
 import com.example.finalproject.presentation.ui.screen.home.state.PopularDestinationState
 import com.example.finalproject.presentation.ui.screen.home.state.UserGuideState
 import com.example.finalproject.presentation.ui.screen.home.state.WeekendTripState
@@ -31,7 +34,8 @@ import com.example.finalproject.presentation.ui.theme.White
 
 @Composable
 fun Home(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     LaunchedEffect(Unit) {
         viewModel.fetchUserGuides()
@@ -49,7 +53,8 @@ fun Home(
             painter = painterResource(R.drawable.img),
             contentDescription = "Card Image",
             title = "Plan your next adventure",
-            buttonText = "Create new trip plan"
+            buttonText = "Create new trip plan",
+            onClick = {navController.navigate(AddTripScreenDestination)}
         )
 
         Spacer(modifier = Modifier.height(35.dp))
@@ -67,7 +72,11 @@ fun Home(
                     modifier = Modifier.padding(start = 3.dp, end = 3.dp)
                 ) {
                     items(state.usersGuides) { userGuide ->
-                        UserGuideItem(userGuide.toPresentation())
+                        UserGuideItem(userGuide.toPresentation()) {
+                            navController.navigate(
+                                UserGuideDetailsDestination(userGuide.toPresentation().id)
+                            )
+                        }
                     }
                 }
             }

@@ -1,5 +1,8 @@
 package com.example.finalproject.presentation.ui.screen.trip
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
@@ -60,7 +64,7 @@ fun TripScreen(onNavigateBack: () -> Unit) {
         Column {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Button(
-                    onClick = {onNavigateBack()},
+                    onClick = { onNavigateBack() },
                     modifier = Modifier
                         .padding(top = 15.dp, start = 10.dp)
                         .size(48.dp),
@@ -86,9 +90,11 @@ fun TripScreen(onNavigateBack: () -> Unit) {
                         .weight(1f)
                 )
             }
-            Spacer(modifier = Modifier
-                .height(20.dp)
-                .fillMaxWidth())
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth()
+            )
 
             Text(
                 "Build an itinerary and map out your upcoming travel plans",
@@ -100,9 +106,11 @@ fun TripScreen(onNavigateBack: () -> Unit) {
                 color = PostLightGreyColor,
                 fontSize = 20.sp
             )
-            Spacer(modifier = Modifier
-                .height(30.dp)
-                .fillMaxWidth())
+            Spacer(
+                modifier = Modifier
+                    .height(30.dp)
+                    .fillMaxWidth()
+            )
 
 
             var startingDate by remember { mutableStateOf("Start date") }
@@ -125,7 +133,9 @@ fun TripScreen(onNavigateBack: () -> Unit) {
                     showDatePicker = false
                 }, onDismiss = { showDatePicker = false })
 
-            TripInputs({ }, {
+            TripInputs({
+
+            }, {
                 showDatePicker = true
             },
                 startDate = startingDate,
@@ -160,21 +170,34 @@ fun TripScreen(onNavigateBack: () -> Unit) {
 }
 
 
-
 @Preview
 @Composable
 fun NewTripPreview() {
-    TripScreen() {}
+    TripScreen {}
 }
 
 
 @Composable
 fun TripInputs(
-    onWhereToClick: () -> Unit,
+    onPlaceSelected: () -> Unit,
     onDatesClick: () -> Unit,
     startDate: String,
     endDate: String
 ) {
+
+//    val context = LocalContext.current
+//
+//    val launcher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.StartActivityForResult()
+//    ) { result ->
+//        if (result.resultCode == Activity.RESULT_OK) {
+//            result.data?.let { data ->
+//                val place = Autocomplete.getPlaceFromIntent(data)
+//                onPlaceSelected(place)
+//            }
+//        }
+//    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,7 +216,14 @@ fun TripInputs(
                     shape = RoundedCornerShape(12.dp)
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp)
-                .clickable { onWhereToClick() },
+                .clickable {
+//                    val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+//                    val intent =
+//                        Autocomplete
+//                            .IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+//                            .build(context)
+//                    launcher.launch(intent)
+                },
             contentAlignment = Alignment.CenterStart,
 
 

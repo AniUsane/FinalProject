@@ -1,7 +1,10 @@
 package com.example.finalproject
 
+import android.app.Activity
 import android.os.Bundle
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.finalproject.domain.repository.auth.DataStoreRepository
 import com.example.finalproject.presentation.navigation.SessionCheckerNavHost
@@ -17,9 +20,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FinalProjectTheme{
+            FinalProjectTheme {
                 SessionCheckerNavHost(dataStore)
             }
+
+
+
         }
     }
 }

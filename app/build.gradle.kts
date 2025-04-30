@@ -76,6 +76,8 @@ android {
                 buildConfigField("String", "AMADEUS_API_SECRET",
                     localProperties.getProperty("AMADEUS_API_SECRET")
                 )
+                buildConfigField("String", "GOOGLE_PLACES_API_KEY",
+                    localProperties.getProperty("GOOGLE_PLACES_API_KEY"))
             }
             release {
                 buildConfigField("String", "BASE_URL", "\"https://67ee8693c11d5ff4bf79ebdf.mockapi.io/final/\"")
@@ -85,8 +87,8 @@ android {
     }
 }
 
-dependencies {
 
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -105,7 +107,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-
+    implementation (libs.androidx.material.icons.extended)
     implementation(libs.serialization)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
@@ -114,7 +116,6 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.coil.compose)
@@ -132,6 +133,7 @@ dependencies {
     testImplementation(libs.truth)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+   // implementation (libs.places)
 }
 
 tasks.withType<Test>().configureEach {

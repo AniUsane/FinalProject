@@ -8,4 +8,7 @@ object Routes {
     const val SETTINGS = "settings"
     const val ACCOUNT = "account"
     const val PREFERENCES = "preferences"
+    const val TRIP = "trip"
+    const val GUIDE = "guide"
+    const val BOOK_HOTEL = "booking"
 }

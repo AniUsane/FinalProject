@@ -1,5 +1,6 @@
 package com.example.finalproject.presentation.ui.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,8 +24,8 @@ import com.example.finalproject.presentation.model.guide.UserGuideUi
 import com.example.finalproject.presentation.ui.theme.PostLightGreyColor
 
 @Composable
-fun UserGuideItem(userGuideUi: UserGuideUi) {
-    Column {
+fun UserGuideItem(userGuideUi: UserGuideUi, onClick: () -> Unit) {
+    Column (modifier = Modifier.clickable { onClick() }){
         Card (
             modifier = Modifier
                 .padding(5.dp)
